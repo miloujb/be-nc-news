@@ -6,6 +6,13 @@ exports.formatDates = list => {
     return formattedList
 };
 
-exports.makeRefObj = list => {};
+exports.makeRefObj = list => {
+    if (list.length === 0) return {}
+    let obj = {}
+    list.forEach(item => {
+        obj[item.title]=item.article_id
+    })
+    return obj;
+};
 
 exports.formatComments = (comments, articleRef) => {};

@@ -84,6 +84,36 @@ expect(actual).to.eql(expected)
   });
 });
 
-describe('makeRefObj', () => {});
+describe('makeRefObj', () => {
+  it('returns an empty object if an empty array is passed in as the input', () => {
+    const input = [];
+    const actual = makeRefObj(input);
+    const expected = {};
+    expect(actual).to.eql(expected);
+  });
+  it('returns an object with one key-value pair with the title as the key and the article_id as the value', () => {
+    const input = [{article_id: 1, title: 'A'}];
+    const actual = makeRefObj(input);
+    const expected = {A: 1};
+    expect(actual).to.eql(expected);
+  });
+  it('returns an object with multiple key-value pairs if multiple objects within an array are passed', () => {
+    const input = [{
+      article_id: 1, title: 'A'
+    },
+    {
+      article_id: 2, title: 'B'
+    }, {
+      article_id: 3, title: 'C'
+    }, 
+    {
+      article_id: 4, title: 'D'
+    }
+  ];
+  const actual = makeRefObj(input);
+  const expected = {A: 1, B: 2, C: 3, D: 4};
+  expect(actual).to.eql(expected);
+  })
+});
 
 describe('formatComments', () => {});
