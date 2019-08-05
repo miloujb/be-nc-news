@@ -103,7 +103,8 @@ describe('makeRefObj', () => {
     },
     {
       article_id: 2, title: 'B'
-    }, {
+    }, 
+    {
       article_id: 3, title: 'C'
     }, 
     {
