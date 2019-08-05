@@ -23,4 +23,12 @@ describe('/api/topics', () => {
            expect(body.topics[0]).to.be.an('Object');
        }) 
     });
+    it('GET /api/topics returns a 404 error message when the endpoint is misspelled', () => {
+        return request(app)
+        .get('/api/topicsss')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).to.equal('Page Not Found')
+        })
+    });
 });
