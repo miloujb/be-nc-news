@@ -116,4 +116,79 @@ describe('makeRefObj', () => {
   })
 });
 
-describe('formatComments', () => {});
+describe('formatComments', () => {
+  it('returns an empty array if an empty array is passed', () => {
+    const input = [];
+    const actual = formatComments(input);
+    const expected = []
+    expect(actual).to.eql(expected);
+  });
+  it('returns an array of length one object if one comment is passed as input', () => {
+    const input = [{
+      body: 'Delicious crackerbreads',
+      belongs_to: 'Living in the shadow of a great man',
+      created_by: 'icellusedkars',
+      votes: 0,
+      created_at: 1290602163389,
+    }];
+    const ref = {'Living in the shadow of a great man' : 1};
+    const actual = formatComments(input, ref);
+    const expected = [{
+      body: 'Delicious crackerbreads',
+      article_id: 1,
+      author: 'icellusedkars',
+      votes: 0,
+      created_at: new Date(1290602163389),
+    }];
+    expect(actual).to.eql(expected)
+  });
+  it('returns an array of several objects when a longer input is passed', () => {
+    const input = [{
+      body: 'Delicious crackerbreads',
+      belongs_to: 'Living in the shadow of a great man',
+      created_by: 'icellusedkars',
+      votes: 0,
+      created_at: 1290602163389,
+    },
+    {
+      body: 'git push origin master',
+      belongs_to: 'Living in the shadow of a great man',
+      created_by: 'icellusedkars',
+      votes: 0,
+      created_at: 1227530163389,
+    },
+    {
+      body: 'Fruit pastilles',
+      belongs_to: 'Living in the shadow of a great man',
+      created_by: 'icellusedkars',
+      votes: 0,
+      created_at: 1132922163389,
+    }
+  ];
+  const ref = {'Living in the shadow of a great man' : 1, 'living in the shadow of a great man': 2, 'living in the shadow of a great man': 3};
+  const actual = formatComments(input, ref);
+  const expected = [{
+    body: 'Delicious crackerbreads',
+    article_id: 1,
+    author: 'icellusedkars',
+    votes: 0,
+    created_at: new Date(1290602163389),
+  },
+  {
+    body: 'git push origin master',
+    article_id: 1,
+    author: 'icellusedkars',
+    votes: 0,
+    created_at: new Date(1227530163389),
+  },
+  {
+    body: 'Fruit pastilles',
+    article_id: 1,
+    author: 'icellusedkars',
+    votes: 0,
+    created_at: new Date(1132922163389),
+  }
+];
+    expect(actual).to.eql(expected)
+  });
+});
