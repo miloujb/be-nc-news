@@ -7,7 +7,7 @@ const app = require('../app');
 const request = require('supertest');
 const connection = require('../db/data/connection');
 
-describe('/api/topics', () => {
+describe('/api/', () => {
     after(() => {
         connection.destroy();
     })
@@ -31,4 +31,18 @@ describe('/api/topics', () => {
             expect(body.msg).to.equal('Page Not Found')
         })
     });
+    it.only('GET /api/users/:username returns the user object', () => {
+        return request(app)
+        .get('/api/users/butter_bridge')
+        .expect(200)
+        .then(({body}) => {
+            console.log(body.user)
+            expect(body.user).to.be.an('Array')
+            expect(body.user[0]).to.have.all.keys(
+                'username',
+                'avatar_url',
+                'name'
+            )
+            })
+    })
 });
