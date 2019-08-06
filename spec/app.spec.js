@@ -52,5 +52,21 @@ describe('/api/', () => {
             expect(body.msg).to.equal('Page Not Found')
         })
     });
-
+    it.only('GET /api/articles/article_id returns a 200 message and the article object', () => {
+        return request(app)
+        .get('/api/articles/1')
+        .expect(200)
+        .then(({body}) => {
+            expect(body.article).to.have.keys(
+                'article_id',
+                'title',
+                'body',
+                'votes',
+                'topic',
+                'author',
+                'created_at', 
+                'comment_count' 
+            )
+        })
+    });
 });
