@@ -69,12 +69,20 @@ describe('/api/', () => {
             )
         })
     });
-    it.only('GET /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
+    it('GET /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
         return request(app)
         .get('/api/articles/parsnips')
         .expect(400)
         .then(({body}) => {
             expect(body.msg).to.eql('Bad Request')
+        })
+    });
+    it.only('GET /api/articles/article_id returns a 404 error if the article_id does not exist', () => {
+        return request(app)
+        .get('/api/articles/150')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Page Not Found')
         })
     });
 });

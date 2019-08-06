@@ -9,8 +9,9 @@ const fetchArticleByArticleId = (article_id) => {
     .groupBy('articles.article_id') 
     .where('articles.article_id', '=', article_id)
     .then(article => {
-        console.log(article)
-        return article
+        if(!article)
+        return Promise.reject({msg: 'Page Not Found', status: 404})
+        else return article
     })
 }
 
