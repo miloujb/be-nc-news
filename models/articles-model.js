@@ -1,6 +1,6 @@
 const connection = require('../db/data/connection')
 
-const fetchArticleByArticleId = (article_id) => {
+const fetchArticleById = (article_id) => {
     return connection
     .first('articles.*')
     .from('articles')
@@ -29,4 +29,4 @@ const updateArticle = (article_id, inc_votes) => {
 }
 
 
-module.exports = { fetchArticleByArticleId, updateArticle }
+module.exports = { fetchArticleById, updateArticle }

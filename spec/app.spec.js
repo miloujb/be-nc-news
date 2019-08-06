@@ -103,7 +103,7 @@ describe('/api/', () => {
             expect(body.article.votes).to.equal(101)
         })
     });
-    it.only('PATCH /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
+    it('PATCH /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
         return request(app)
         .patch('/api/articles/banana')
         .expect(400)
