@@ -36,7 +36,6 @@ describe('/api/', () => {
         .get('/api/users/butter_bridge')
         .expect(200)
         .then(({body}) => {
-            console.log(body.user)
             expect(body.user).to.be.an('Array')
             expect(body.user[0]).to.have.all.keys(
                 'username',
@@ -53,4 +52,5 @@ describe('/api/', () => {
             expect(body.msg).to.equal('Page Not Found')
         })
     });
+
 });

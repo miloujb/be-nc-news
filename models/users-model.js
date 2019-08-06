@@ -11,4 +11,4 @@ const fetchUserById = ({username}) => {
     }
 )}
 
-module.exports = fetchUserById
+module.exports = fetchUserById;
