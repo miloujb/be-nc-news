@@ -77,12 +77,30 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Bad Request')
         })
     });
-    it.only('GET /api/articles/article_id returns a 404 error if the article_id does not exist', () => {
+    it('GET /api/articles/article_id returns a 404 error if the article_id does not exist', () => {
         return request(app)
         .get('/api/articles/150')
         .expect(404)
         .then(({body}) => {
             expect(body.msg).to.eql('Page Not Found')
+        })
+    });
+    it.only('PATCH /api/articles/article_id returns a 200 status and an object', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .send({inc_votes: 1})
+        .expect(200)
+        .then(({body}) => {
+            expect(body.article).to.have.keys( 
+                'article_id',
+                'title',
+                'body',
+                'votes',
+                'topic',
+                'author',
+                'created_at'
+            )
+            expect(body.article.votes).to.equal(101)
         })
     });
 });

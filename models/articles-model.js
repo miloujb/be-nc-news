@@ -15,6 +15,17 @@ const fetchArticleByArticleId = (article_id) => {
     })
 }
 
+const updateArticle = (article_id, inc_votes) => {
+    return connection
+    .from('articles')
+    .increment('votes', inc_votes) 
+    .where('articles.article_id', '=', article_id)
+    .returning('*')
+    .then(article => {
+        console.log(article[0])
+        return article[0]
+    })
+}
 
 
-module.exports = fetchArticleByArticleId
+module.exports = { fetchArticleByArticleId, updateArticle }
