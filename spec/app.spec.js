@@ -31,7 +31,7 @@ describe('/api/', () => {
             expect(body.msg).to.equal('Page Not Found')
         })
     });
-    it.only('GET /api/users/:username returns the user object', () => {
+    it('GET /api/users/:username returns the user object', () => {
         return request(app)
         .get('/api/users/butter_bridge')
         .expect(200)
@@ -43,6 +43,14 @@ describe('/api/', () => {
                 'avatar_url',
                 'name'
             )
-            })
+        })
     })
+    it('GET /api/users/:username returns a 404 if the username does not exist', () => {
+        return request(app)
+        .get('/api/users/turnipss')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).to.equal('Page Not Found')
+        })
+    });
 });
