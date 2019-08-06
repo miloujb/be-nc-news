@@ -85,7 +85,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('PATCH /api/articles/article_id returns a 200 status and an object', () => {
+    it('PATCH /api/articles/article_id returns a 200 status and an object', () => {
         return request(app)
         .patch('/api/articles/1')
         .send({inc_votes: 1})
@@ -101,6 +101,14 @@ describe('/api/', () => {
                 'created_at'
             )
             expect(body.article.votes).to.equal(101)
+        })
+    });
+    it.only('PATCH /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
+        return request(app)
+        .patch('/api/articles/banana')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Bad Request')
         })
     });
 });
