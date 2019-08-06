@@ -22,7 +22,7 @@ const updateArticle = (article_id, inc_votes) => {
     .where('articles.article_id', '=', article_id)
     .returning('*')
     .then(article => {
-        if(!article) 
+        if(!article.length) 
         return Promise.reject({msg: 'Page Not Found', status: 404})
         else return article[0]
     })

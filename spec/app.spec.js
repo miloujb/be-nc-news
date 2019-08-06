@@ -111,4 +111,12 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Bad Request')
         })
     });
+    it('PATCH /api/articles/article_id returns a 404 error if an article id is passed that does not exist', () => {
+        return request(app)
+        .patch('/api/articles/1155')
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Page Not Found')
+        })
+    });
 });
