@@ -52,7 +52,7 @@ describe('/api/', () => {
             expect(body.msg).to.equal('Page Not Found')
         })
     });
-    it.only('GET /api/articles/article_id returns a 200 message and the article object', () => {
+    it('GET /api/articles/article_id returns a 200 message and the article object', () => {
         return request(app)
         .get('/api/articles/1')
         .expect(200)
@@ -67,6 +67,14 @@ describe('/api/', () => {
                 'created_at', 
                 'comment_count' 
             )
+        })
+    });
+    it.only('GET /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
+        return request(app)
+        .get('/api/articles/parsnips')
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Bad Request')
         })
     });
 });
