@@ -119,4 +119,25 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
+    it.only('POST /api/articles/article_id takes a username and body, and returns the new object', () => {
+        return request(app)
+        .post('/api/articles/1/comments/')
+        .send({username: 'butter_bridge', body: 'Insert vaguely amusing new comment here' })
+        .expect(201)
+        .then(({body}) => {
+            console.log(body.comment)
+            expect(body.comment).to.have.keys(
+               'author',
+               'body',
+               'article_id',
+               'comment_id',
+               'votes',
+               'created_at'
+            )
+            expect(body.comment.author).to.eql('butter_bridge')
+            expect(body.comment.comment_id).to.eql(19)
+            expect(body.comment).to.be.an('Object')
+        })
+        }
+    )
 });

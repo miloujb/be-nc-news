@@ -28,5 +28,15 @@ const updateArticle = (article_id, inc_votes) => {
     })
 }
 
+const addNewCommentToArticle = (article_id, username, body) => {
+    return connection
+    .insert(article_id, username, body)
+    .into('comments')
+    .returning('*')
+    .then(comments => {
+        return comments[0]
+    })
+};
 
-module.exports = { fetchArticleById, updateArticle }
+
+module.exports = { fetchArticleById, updateArticle, addNewCommentToArticle }
