@@ -207,13 +207,19 @@ describe('/api/', () => {
             expect(body.comments[0].article_id).to.eql(1)
         })
     });
-    it.only('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
+    it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({body}) => {
-            console.log(body.comments)
             expect(body.comments).to.be.sortedBy('created_at')
+        })
+    });
+    it.only('GET /api/articles/article_id/comments returns an array sorted by created_at in ascending order', () => {
+        return request(app)
+        .get('/api/articles/1/comments')
+        .then(({body}) => {
+            expect(body.comments).to.be.sortedBy('created_at', {ascending: true})
         })
     });
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
