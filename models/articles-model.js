@@ -17,14 +17,12 @@ const fetchArticleById = (article_id) => {
 
 const updateArticle = (article_id, inc_votes) => {
     return connection
-    .from('articles')   
-    .where('articles.article_id')
+    .from('articles')
     .increment('votes', inc_votes) 
     .where('articles.article_id', '=', article_id)
     .returning('*')
     .then(article => {
-        if(!article.length) 
-        return Promise.reject({msg: 'Page Not Found', status: 404})
+        if(!article) return Promise.reject({msg: 'Page Not Found', status: 404})
         else return article[0]
     })
 }
@@ -54,5 +52,18 @@ const fetchArticles = () => {
     })
 }
 
+const fetchComments = (article_id) => {
+    return connection
+    .select('comments.*')
+    .from('articles')
+    .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
+    .groupBy('comments.comment_id')
+    .where('comments.article_id', '=', article_id)
+    .then(comments => {
+        console.log(comments[0])
+        return comments
+    })
+}
 
-module.exports = { fetchArticleById, updateArticle, addNewCommentToArticle, fetchArticles }
+
+module.exports = { fetchArticleById, updateArticle, addNewCommentToArticle, fetchArticles, fetchComments }

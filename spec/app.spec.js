@@ -133,7 +133,6 @@ describe('/api/', () => {
         .patch('/api/articles/1')
         .expect(200)
         .then(({body}) => {
-            console.log(body)
             expect(body.article.votes).to.eql(101)
         })
     });
@@ -184,6 +183,21 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
+    it.only('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
+        return request(app)
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({body})=> {
+            expect(body.comments[0]).to.have.keys(
+                'article_id',
+                'comment_id',
+                'votes',
+                'created_at',
+                'author',
+                'body'
+            )
+        })
+    });
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
         .get('/api/articles')
@@ -192,7 +206,7 @@ describe('/api/', () => {
             expect(body.articles).to.be.an('Array');
         })
     });
-    it.only('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
+    it('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
         return request(app)
         .get('/api/articles')
         .expect(200)
