@@ -119,6 +119,15 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
+    it.only('PATCH /api/articles/article_id returns a 400 status when inc_votes is not a number', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .send({inc_votes: 'NotANumber'})
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Bad Request')
+        })
+    });
     it('POST /api/articles/article_id takes a username and body, and returns the new object', () => {
         return request(app)
         .post('/api/articles/1/comments/')
@@ -138,7 +147,7 @@ describe('/api/', () => {
             expect(body.comment.comment_id).to.eql(19)
             expect(body.comment).to.be.an('Object')
         })
-        })
+    })
     it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
         return request(app)
         .post('/api/articles/1355/comments')
@@ -157,7 +166,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Bad Request')
         })
     });
-    it.only('POST /api/articles/article_id/comments returns a 404 if there is a misspelling in the url', () => {
+    it('POST /api/articles/article_id/comments returns a 404 if there is a misspelling in the url', () => {
         return request(app)
         .post('/api/articles/1/commmments')
         .send({username: 'butter_bridge', body: 'we all live in a yellow submarine'})
