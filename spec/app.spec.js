@@ -119,13 +119,22 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('PATCH /api/articles/article_id returns a 400 status when inc_votes is not a number', () => {
+    it('PATCH /api/articles/article_id returns a 400 status when inc_votes is not a number', () => {
         return request(app)
         .patch('/api/articles/1')
         .send({inc_votes: 'NotANumber'})
         .expect(400)
         .then(({body}) => {
             expect(body.msg).to.eql('Bad Request')
+        })
+    });
+    it.only('PATCH /api/articles/article_id returns a 400 status if there are no votes on inc_votes', () => {
+        return request(app)
+        .patch('/api/articles/1')
+        .expect(200)
+        .then(({body}) => {
+            console.log(body)
+            expect(body.article.votes).to.eql(101)
         })
     });
     it('POST /api/articles/article_id takes a username and body, and returns the new object', () => {
