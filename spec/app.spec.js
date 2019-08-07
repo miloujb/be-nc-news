@@ -198,13 +198,22 @@ describe('/api/', () => {
             )
         })
     });
-    it.only('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
+    it('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({body}) => {
             console.log(body.comments)
             expect(body.comments[0].article_id).to.eql(1)
+        })
+    });
+    it.only('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
+        return request(app)
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({body}) => {
+            console.log(body.comments)
+            expect(body.comments).to.be.sortedBy('created_at')
         })
     });
     it('GET /api/articles returns a 200 status and an array of article objects', () => {

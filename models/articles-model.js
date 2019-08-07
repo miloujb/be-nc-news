@@ -52,12 +52,13 @@ const fetchArticles = () => {
     })
 }
 
-const fetchComments = (article_id) => {
+const fetchComments = (article_id, sorted_by = 'created_at') => {
     return connection
     .select('comments.*')
     .from('articles')
     .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
     .groupBy('comments.comment_id')
+    .orderBy(sorted_by)
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         console.log(comments[0])
