@@ -184,12 +184,29 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('GET /api/articles returns a 200 status and an array of article objects', () => {
+    it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
         .get('/api/articles')
         .expect(200)
         .then(({body})=> {
             expect(body.articles).to.be.an('Array');
+        })
+    });
+    it.only('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
+        return request(app)
+        .get('/api/articles')
+        .expect(200)
+        .then(({body}) => {
+            expect(body.articles[0]).to.have.keys(
+                'author',
+                'body',
+                'title',
+                'article_id',
+                'topic',
+                'created_at',
+                'votes',
+                'comment_count'
+            )
         })
     });
 });

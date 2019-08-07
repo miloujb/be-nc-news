@@ -17,7 +17,8 @@ const fetchArticleById = (article_id) => {
 
 const updateArticle = (article_id, inc_votes) => {
     return connection
-    .from('articles')
+    .from('articles')   
+    .where('articles.article_id')
     .increment('votes', inc_votes) 
     .where('articles.article_id', '=', article_id)
     .returning('*')
@@ -42,7 +43,15 @@ const addNewCommentToArticle = (article_id, username, body) => {
 
 const fetchArticles = () => {
     return connection
-    .select('*').from('articles')
+    .select('articles.*')
+    .from('articles')
+    .leftJoin('comments', 'articles.article_id' , '=', 'comments.article_id')
+    .count({comment_count:'comments.article_id'})
+    .groupBy('articles.article_id')
+    .then(articles => {
+        console.log(articles)
+        return articles
+    })
 }
 
 
