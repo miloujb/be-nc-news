@@ -228,12 +228,12 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
+    it.only('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({body}) => {
-            expect(body.comments).to.be.sortedBy('created_at')
+            expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
         })
     });
     it.only('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
@@ -241,6 +241,14 @@ describe('/api/', () => {
         .get('/api/articles/1/comments')
         .then(({body}) => {
             expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
+        })
+    });
+    it.only('GET /api/articles/article_id/comments can be changed to sort by author in descending order', () => {
+        return request(app)
+        .get('/api/articles/1/comments?sort_by=author')
+        .then(({body})=> {
+            console.log(body.comments)
+            expect(body.comments).to.be.sortedBy('author', {ascending: false})
         })
     });
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
