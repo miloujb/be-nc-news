@@ -148,13 +148,22 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('POST /api/articles/article_id/comments returns a 400 if a bad request is made to the article_id endpoint', () => {
+    it('POST /api/articles/article_id/comments returns a 400 if a bad request is made to the article_id endpoint', () => {
         return request(app)
         .post('/api/articles/raspberry/comments')
         .send({username: 'butter_bridge', body: 'this test should also fail'})
         .expect(400)
         .then(({body}) => {
             expect(body.msg).to.eql('Bad Request')
+        })
+    });
+    it.only('POST /api/articles/article_id/comments returns a 404 if there is a misspelling in the url', () => {
+        return request(app)
+        .post('/api/articles/1/commmments')
+        .send({username: 'butter_bridge', body: 'we all live in a yellow submarine'})
+        .expect(404)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Page Not Found')
         })
     });
 });
