@@ -139,13 +139,22 @@ describe('/api/', () => {
             expect(body.comment).to.be.an('Object')
         })
         })
-    it.only('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
+    it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
         return request(app)
         .post('/api/articles/1355/comments')
         .send({username: 'butter_bridge', body: 'this test should fail'})
         .expect(404)
         .then(({body}) => {
             expect(body.msg).to.eql('Page Not Found')
+        })
+    });
+    it.only('POST /api/articles/article_id/comments returns a 400 if a bad request is made to the article_id endpoint', () => {
+        return request(app)
+        .post('/api/articles/raspberry/comments')
+        .send({username: 'butter_bridge', body: 'this test should also fail'})
+        .expect(400)
+        .then(({body}) => {
+            expect(body.msg).to.eql('Bad Request')
         })
     });
 });
