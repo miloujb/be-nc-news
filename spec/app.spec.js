@@ -183,7 +183,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
+    it('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
@@ -196,6 +196,15 @@ describe('/api/', () => {
                 'author',
                 'body'
             )
+        })
+    });
+    it.only('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
+        return request(app)
+        .get('/api/articles/1/comments')
+        .expect(200)
+        .then(({body}) => {
+            console.log(body.comments)
+            expect(body.comments[0].article_id).to.eql(1)
         })
     });
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
