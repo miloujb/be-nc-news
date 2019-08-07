@@ -34,7 +34,9 @@ const addNewCommentToArticle = (article_id, username, body) => {
     .into('comments')
     .returning('*')
     .then(comments => {
-        return comments[0]
+        if(!comments.length)
+        return Promise.reject({msg: 'Page Not Found', status: 404})
+        else return comments[0]
     })
 };
 
