@@ -40,5 +40,10 @@ const addNewCommentToArticle = (article_id, username, body) => {
     })
 };
 
+const fetchArticles = () => {
+    return connection
+    .select('*').from('articles')
+}
 
-module.exports = { fetchArticleById, updateArticle, addNewCommentToArticle }
+
+module.exports = { fetchArticleById, updateArticle, addNewCommentToArticle, fetchArticles }
