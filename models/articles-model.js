@@ -58,12 +58,12 @@ const fetchComments = (article_id, sorted_by = 'created_at') => {
     .from('articles')
     .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
     .groupBy('comments.comment_id')
-    .orderBy(sorted_by)
+    .orderBy(sorted_by, 'desc')
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         if(!comments.length)
         return Promise.reject({msg: 'Page Not Found', status: 404})
-        else return comments
+        return comments
     })
 }
 
