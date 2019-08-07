@@ -207,6 +207,13 @@ describe('/api/', () => {
             expect(body.comments[0].article_id).to.eql(1)
         })
     });
+    it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
+        return request(app)
+        .get('/api/articles/1/commmments')
+        .then(({body}) => {
+            expect(body.msg).to.eql('Page Not Found')
+        })
+    });
     it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
         return request(app)
         .get('/api/articles/1/comments')
@@ -215,7 +222,7 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('created_at')
         })
     });
-    it.only('GET /api/articles/article_id/comments returns an array sorted by created_at in ascending order', () => {
+    it('GET /api/articles/article_id/comments returns an array sorted by created_at in ascending order', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .then(({body}) => {
