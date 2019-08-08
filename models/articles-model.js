@@ -39,7 +39,7 @@ const addNewCommentToArticle = (article_id, username, body) => {
     })
 };
 
-const fetchArticles = ({sort_by = 'created_at', order = 'desc'}) => {
+const fetchArticles = ({sort_by = 'created_at', order = 'desc', author}) => {
     return connection
     .select('articles.*')
     .from('articles')
@@ -47,6 +47,9 @@ const fetchArticles = ({sort_by = 'created_at', order = 'desc'}) => {
     .count({comment_count:'comments.article_id'})
     .leftJoin('comments', 'articles.article_id' , '=', 'comments.article_id')
     .groupBy('articles.article_id')
+    .modify(filteringQuery => {
+        if(author) filteringQuery.where('articles.author', '=', author)
+    })
     .then(articles => {
         console.log(articles)
         return articles
