@@ -203,12 +203,20 @@ describe('/api/', () => {
              expect(body.articles).to.be.sortedBy('created_at', {descending: false})
          })
      });
-     it.only('GET /api/articles returns 404 if a bad request is made to the endpoint', () => {
+     it('GET /api/articles returns 404 if the endpoint is spelled incorrectly', () => {
          return request(app)
          .get('/api/articlessss')
          .expect(404)
          .then(({body})=> {
              expect(body.msg).to.eql('Page Not Found')
+         })
+     });
+     it.only('GET /api/articles returns a 400 if the sort_by request is invalid', () => {
+         return request(app)
+         .get('/api/articles?sort_by=44')
+         .expect(400)
+         .then(({body})=> {
+             expect(body.msg).to.eql('Bad Request')
          })
      });
     });
