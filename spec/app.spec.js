@@ -236,13 +236,13 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('created_at')
         })
     });
-    // it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
-    //     return request(app)
-    //     .get('/api/articles/1/comments')
-    //     .then(({body}) => {
-    //         expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
-    //     })
-    // });
+    it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
+        return request(app)
+        .get('/api/articles/1/comments')
+        .then(({body}) => {
+            expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
+        })
+    });
     // it('GET /api/articles/article_id/comments can be changed to sort by comment_id in descending order', () => {
     //     return request(app)
     //     .get('/api/articles/1/comments?sort_by=comment_id')
