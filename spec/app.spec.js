@@ -250,14 +250,14 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('comment_id', {ascending: true})
         })
     });
-    // it('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
-    //     return request(app)
-    //     .get('/api/articles/1/comments?sort_by=votes')
-    //     .then(({body})=> {
-    //         console.log(body.comments)
-    //         expect(body.comments).to.be.sortedBy('votes', {ascending: false})
-    //     })
-    // });
+    it.only('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
+        return request(app)
+        .get('/api/articles/1/comments?sort_by=votes')
+        .then(({body})=> {
+            console.log(body.comments)
+            expect(body.comments).to.be.sortedBy('votes', {ascending: false})
+        })
+    });
 
 
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
