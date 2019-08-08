@@ -265,11 +265,11 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('author')
         })
     });
-    it.only('GET /api/articles/article_id/comments returns a 400 if a request is made to a column that does not exist', () => {
+    it.only('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
         return request(app)
         .get('/api/articles/1/comments?sort_by=NotAColumn')
         .then(({body}) => {
-            expect(body.msg).to.eql('Bad Request')
+            expect(body.msg).to.eql('Page Not Found')
         })
     });
 
