@@ -7,7 +7,8 @@ const updateComment = (comment_id, inc_votes) => {
     .where('comments.comment_id', '=', comment_id)
     .returning('*')
     .then(article => {
-        return article[0]
+        if(!article) return Promise.reject({msg: 'Page Not Found', status: 404})
+        else return article[0]
     })
 }
 

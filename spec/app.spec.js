@@ -490,10 +490,19 @@ describe('/api/', () => {
               expect(body.msg).to.eql('Bad Request')
             }) 
         });
-        it.only('PATCH /api/comment/:comment_id returns a 400 if there is no number as the value on inc_votes', () => {
+        it('PATCH /api/comment/:comment_id returns a 400 if there is no number as the value on inc_votes', () => {
             return request(app)
             .patch('/api/comments/1')
             .send({inc_votes: ''})
+            .expect(400)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Bad Request')
+            })
+        });
+        xit('PATCH /api/comment/:comment_id returns a 400 if there is more than one value on inc_votes', () => {
+            return request(app)
+            .patch('/api/comments/1')
+            .send({name: 'mitch', inc_votes: 1})
             .expect(400)
             .then(({body})=> {
                 expect(body.msg).to.eql('Bad Request')
