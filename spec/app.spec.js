@@ -481,14 +481,23 @@ describe('/api/', () => {
             expect(body.comment).to.be.an('Object')
             });
         });
-        it.only('PATCH /api/comment/:comment_id returns a 400 status when inc_votes is not a number', () => {
+        it('PATCH /api/comment/:comment_id returns a 400 status when inc_votes is not a number', () => {
             return request(app)
             .patch('/api/comments/1')
             .send({ inc_votes : 'apple' })
             .expect(400)
-            .then((res) => {
-              expect(res.body).to.eql({msg: 'Bad Request'})
+            .then(({body}) => {
+              expect(body.msg).to.eql('Bad Request')
             }) 
+        });
+        it.only('PATCH /api/comment/:comment_id returns a 400 if there is no number as the value on inc_votes', () => {
+            return request(app)
+            .patch('/api/comments/1')
+            .send({inc_votes: ''})
+            .expect(400)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Bad Request')
+            })
         });
     })
 });
