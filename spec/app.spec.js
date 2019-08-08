@@ -261,13 +261,17 @@ describe('/api/', () => {
             expect(body.articles[0].topic).to.eql('mitch')
         })
     });
-    it.only('GET /api/articles returns a 404 if there is no articles.length property', () => {
+    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
         return request(app)
         .get('/api/articles?topic=spinach')
         .expect(404)
         .then(({body})=> {
             expect(body.msg).to.eql('Page Not Found')
         })
+    });
+    it.only('GET /api/articles returns a 404 if the author passed in req.query is undefined ', () => {
+        return request(app)
+        .get('/api/articles?author=pineapple')
     });
     });
     describe('COMMENTS', () => {
