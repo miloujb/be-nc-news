@@ -305,11 +305,12 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, defaulting to descending order', () => {
+        it.only('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
             return request(app)
-            .get('/api/articles/1/comments')
+            .get('/api/articles/1/comments?order=asc')
             .then(({body})=> {
-                expect(body.comments).to.be.descendingBy('created_at')
+                expect(body.comments).to.be.sortedBy('created_at')
+                expect(body.comments).to.be.an('Array')
             })
         });
     })
