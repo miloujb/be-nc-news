@@ -47,22 +47,19 @@ const fetchArticles = () => {
     .count({comment_count:'comments.article_id'})
     .groupBy('articles.article_id')
     .then(articles => {
-        console.log(articles)
         return articles
     })
 }
 
-const fetchComments = (article_id, sorted_by = 'created_at') => {
+const fetchComments = (article_id) => {
     return connection
-    .select('comments.*')
-    .from('articles')
-    .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
-    .groupBy('comments.comment_id')
-    .orderBy(sorted_by, 'desc')
+    .select('*')
+    .from('comments')
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         if(!comments.length)
         return Promise.reject({msg: 'Page Not Found', status: 404})
+        console.log(comments)
         return comments
     })
 }

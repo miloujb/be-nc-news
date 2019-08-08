@@ -183,11 +183,12 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
+    it.only('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
         .then(({body})=> {
+            console.log(body.comments)
             expect(body.comments[0]).to.have.keys(
                 'article_id',
                 'comment_id',
@@ -198,66 +199,66 @@ describe('/api/', () => {
             )
         })
     });
-    it('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
-        return request(app)
-        .get('/api/articles/1/comments')
-        .expect(200)
-        .then(({body}) => {
-            console.log(body.comments)
-            expect(body.comments[0].article_id).to.eql(1)
-        })
-    });
-    it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
-        return request(app)
-        .get('/api/articles/1/commmments')
-        .then(({body}) => {
-            expect(body.msg).to.eql('Page Not Found')
-        })
-    });
-    it('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
-        return request(app)
-        .get('/api/articles/blackberries/comments')
-        .then(({body}) => {
-            expect(body.msg).to.eql('Bad Request')
-        })
-    });
-    it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
-        return request(app)
-        .get('/api/articles/164/comments')
-        .then(({body})=> {
-            expect(body.msg).to.eql('Page Not Found')
-        })
-    });
-    it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
-        return request(app)
-        .get('/api/articles/1/comments')
-        .expect(200)
-        .then(({body}) => {
-            expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
-        })
-    });
-    it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
-        return request(app)
-        .get('/api/articles/1/comments')
-        .then(({body}) => {
-            expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
-        })
-    });
-    it('GET /api/articles/article_id/comments can be changed to sort by comment_id in descending order', () => {
-        return request(app)
-        .get('/api/articles/1/comments?sort_by=comment_id')
-        .then(({body})=> {
-            expect(body.comments).to.be.sortedBy('comment_id', {ascending: false})
-        })
-    });
-    xit('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
-        return request(app)
-        .get('/api/articles/1/comments?sort_by=votes')
-        .then(({body})=> {
-            console.log(body.comments)
-            expect(body.comments).to.be.sortedBy('votes', {ascending: false})
-        })
-    });
+    // it('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
+    //     return request(app)
+    //     .get('/api/articles/1/comments')
+    //     .expect(200)
+    //     .then(({body}) => {
+    //         console.log(body.comments)
+    //         expect(body.comments[0].article_id).to.eql(1)
+    //     })
+    // });
+    // it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
+    //     return request(app)
+    //     .get('/api/articles/1/commmments')
+    //     .then(({body}) => {
+    //         expect(body.msg).to.eql('Page Not Found')
+    //     })
+    // });
+    // it('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
+    //     return request(app)
+    //     .get('/api/articles/blackberries/comments')
+    //     .then(({body}) => {
+    //         expect(body.msg).to.eql('Bad Request')
+    //     })
+    // });
+    // it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+    //     return request(app)
+    //     .get('/api/articles/164/comments')
+    //     .then(({body})=> {
+    //         expect(body.msg).to.eql('Page Not Found')
+    //     })
+    // });
+    // it.only('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
+    //     return request(app)
+    //     .get('/api/articles/1/comments')
+    //     .expect(200)
+    //     .then(({body}) => {
+    //         expect(body.comments).to.be.sortedBy('created_at')
+    //     })
+    // });
+    // it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
+    //     return request(app)
+    //     .get('/api/articles/1/comments')
+    //     .then(({body}) => {
+    //         expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
+    //     })
+    // });
+    // it('GET /api/articles/article_id/comments can be changed to sort by comment_id in descending order', () => {
+    //     return request(app)
+    //     .get('/api/articles/1/comments?sort_by=comment_id')
+    //     .then(({body})=> {
+    //         expect(body.comments).to.be.sortedBy('comment_id', {ascending: false})
+    //     })
+    // });
+    // it('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
+    //     return request(app)
+    //     .get('/api/articles/1/comments?sort_by=votes')
+    //     .then(({body})=> {
+    //         console.log(body.comments)
+    //         expect(body.comments).to.be.sortedBy('votes', {ascending: false})
+    //     })
+    // });
 
 
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
