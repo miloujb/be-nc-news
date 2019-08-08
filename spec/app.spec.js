@@ -198,7 +198,7 @@ describe('/api/', () => {
             )
         })
     });
-    it.only('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
+    it('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
@@ -207,13 +207,13 @@ describe('/api/', () => {
             expect(body.comments[0].article_id).to.eql(1)
         })
     });
-    // it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
-    //     return request(app)
-    //     .get('/api/articles/1/commmments')
-    //     .then(({body}) => {
-    //         expect(body.msg).to.eql('Page Not Found')
-    //     })
-    // });
+    it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
+        return request(app)
+        .get('/api/articles/1/commmments')
+        .then(({body}) => {
+            expect(body.msg).to.eql('Page Not Found')
+        })
+    });
     // it('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
     //     return request(app)
     //     .get('/api/articles/blackberries/comments')
