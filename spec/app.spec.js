@@ -243,14 +243,14 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
         })
     });
-    it.only('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
+    it('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
         return request(app)
         .get('/api/articles/1/comments?sort_by=comment_id')
         .then(({body})=> {
             expect(body.comments).to.be.sortedBy('comment_id', {ascending: true})
         })
     });
-    it.only('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
+    it('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
         return request(app)
         .get('/api/articles/1/comments?sort_by=votes')
         .then(({body})=> {
@@ -258,7 +258,13 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('votes', {ascending: false})
         })
     });
-
+    it.only('GET /api/articles/article_id/comments can be changed to sort by author', () => {
+        return request(app)
+        .get('/api/articles/1/comments?sort_by=author')
+        .then(({body})=> {
+            expect(body.comments).to.be.sortedBy('author')
+        })
+    });
 
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
