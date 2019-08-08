@@ -462,7 +462,7 @@ describe('/api/', () => {
                 expect(body.comment).to.be.an('Object')
             });
         })
-        it.only('PATCH /api/comments/comment_id returns a 200 and an update object when inc_votes is a negative number', () => {
+        it('PATCH /api/comments/comment_id returns a 200 and an update object when inc_votes is a negative number', () => {
         return request(app)
         .patch('/api/comments/1')
         .send({inc_votes: -5})
@@ -479,7 +479,16 @@ describe('/api/', () => {
             )
             expect(body.comment.votes).to.equal(11)
             expect(body.comment).to.be.an('Object')
-    });
-    });
-})
+            });
+        });
+        it.only('PATCH /api/comment/:comment_id returns a 400 status when inc_votes is not a number', () => {
+            return request(app)
+            .patch('/api/comments/1')
+            .send({ inc_votes : 'apple' })
+            .expect(400)
+            .then((res) => {
+              expect(res.body).to.eql({msg: 'Bad Request'})
+            }) 
+        });
+    })
 });
