@@ -60,8 +60,8 @@ const fetchComments = (article_id, {sort_by}) => {
     .then(comments => {
         if(!comments.length)
         return Promise.reject({msg: 'Page Not Found', status: 404})
-        console.log(comments)
-        return comments
+        //console.log(comments)
+        else return comments
     })
 }
 

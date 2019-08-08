@@ -8,12 +8,12 @@ const request = require('supertest');
 const connection = require('../db/data/connection');
 
 describe('/api/', () => {
-    after(() => {
-        connection.destroy();
-    })
     beforeEach(() => {
         return connection.seed.run();
     });
+    after(() => {
+        connection.destroy();
+    })
     describe('TOPICS', () => {
         it('GET /api/topics returns all topic information', () => {
             return request(app)
@@ -160,14 +160,15 @@ describe('/api/', () => {
                 expect(body.comment.comment_id).to.eql(19)
                 expect(body.comment).to.be.an('Object')
             })
-        })    
+        })
+        
     // it('GET /api/articles returns a 200 status and an array of article objects', () => {
     //     return request(app)
     //      .get('/api/articles')
     //      .expect(200)
     //      .then(({body})=> {
     //          expect(body.articles).to.be.an('Array');
-    //     })
+    //      })
     //});   
     // it('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
     //     return request(app)
@@ -265,21 +266,21 @@ describe('/api/', () => {
             .get('/api/articles/1/comments?sort_by=created_at')
             .expect(200)
             .then(({body}) => {
-                expect(body.comments).to.be.sortedBy('created_at')
+                expect(body.comments).to.be.descendingBy('created_at')
             })
         });
         it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
             return request(app)
             .get('/api/articles/1/comments')
             .then(({body}) => {
-                expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
+                expect(body.comments).to.be.descendingBy('created_at', {ascending: false})
             })
         });
         it('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=comment_id')
             .then(({body})=> {
-                expect(body.comments).to.be.sortedBy('comment_id', {ascending: true})
+                expect(body.comments).to.be.descendingBy('comment_id')
             })
         });
         it('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
@@ -287,14 +288,14 @@ describe('/api/', () => {
             .get('/api/articles/1/comments?sort_by=votes')
             .then(({body})=> {
                 console.log(body.comments)
-                expect(body.comments).to.be.sortedBy('votes', {ascending: false})
+                expect(body.comments).to.be.descendingBy('votes', {ascending: false})
             })
         });
         it('GET /api/articles/article_id/comments can be changed to sort by author', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=author')
             .then(({body})=> {
-                expect(body.comments).to.be.sortedBy('author')
+                expect(body.comments).to.be.descendingBy('author')
             })
         });
         it('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
@@ -304,12 +305,12 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it.only('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, defaulting to descending order', () => {
+        it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, defaulting to descending order', () => {
             return request(app)
             .get('/api/articles/1/comments')
             .then(({body})=> {
                 expect(body.comments).to.be.descendingBy('created_at')
             })
         });
-    });
+    })
 });
