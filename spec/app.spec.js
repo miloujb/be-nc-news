@@ -207,20 +207,20 @@ describe('/api/', () => {
             expect(body.comments[0].article_id).to.eql(1)
         })
     });
-    it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
+    it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
         return request(app)
         .get('/api/articles/1/commmments')
         .then(({body}) => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    // it('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
-    //     return request(app)
-    //     .get('/api/articles/blackberries/comments')
-    //     .then(({body}) => {
-    //         expect(body.msg).to.eql('Bad Request')
-    //     })
-    // });
+    it.only('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
+        return request(app)
+        .get('/api/articles/blackberries/comments')
+        .then(({body}) => {
+            expect(body.msg).to.eql('Bad Request')
+        })
+    });
     // it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
     //     return request(app)
     //     .get('/api/articles/164/comments')
