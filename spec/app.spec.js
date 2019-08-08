@@ -244,7 +244,7 @@ describe('/api/', () => {
                 expect(body.articles[0].author).to.eql('butter_bridge')
             })
         });
-    it.only('GET /api/articles filters the articles by topic, and returns an array of objects', () => {
+    it('GET /api/articles filters the articles by topic, and returns an array of objects', () => {
         return request(app)
         .get('/api/articles?topic=mitch')
         .expect(200)
@@ -252,6 +252,15 @@ describe('/api/', () => {
             expect(body.articles).to.be.an('Array')
             expect(body.articles[0]).to.be.an('Object')
         })
+    });
+    it.only('GET /api/articles filters the articles by topic, which is the same as the topic declared in the query', () => {
+        return request(app)
+        .get('/api/articles?topic=mitch')
+        .expect(200)
+        .then(({body})=>{
+            expect(body.articles[0].topic).to.eql('mitch')
+        })
+        
     });
     });
     describe('COMMENTS', () => {
