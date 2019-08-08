@@ -240,7 +240,7 @@ describe('/api/', () => {
                 expect(body.comments[0].article_id).to.eql(1)
             })
         });
-        it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
+        it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
             return request(app)
             .get('/api/articles/1/commmments')
             .expect(404)
@@ -248,7 +248,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it.only('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
+        it('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
             return request(app)
             .get('/api/articles/blackberries/comments')
             .expect(400)
@@ -256,7 +256,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+        it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/164/comments')
             .expect(404)
@@ -305,7 +305,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('author')
             })
         });
-        it.only('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
+        it('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=NotAColumn')
             .expect(404)
@@ -344,6 +344,13 @@ describe('/api/', () => {
             .expect(200)
             .then(({body})=> {
                 expect(body.comments).to.be.sortedBy('author');
+            })
+        });
+        it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error', () => {
+            return request(app)
+            .get('/api/articles/1/commentds??sort_by=author&order=as')
+            .then(({body})=> {
+                expect(body.msg).to.eql('Page Not Found')
             })
         });
     })
