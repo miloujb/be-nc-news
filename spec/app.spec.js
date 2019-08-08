@@ -187,12 +187,20 @@ describe('/api/', () => {
              expect(body.articles).to.be.descendingBy('created_at')
          })   
      });
-     it.only('GET /api/articles can sort the array of articles to a column other than the default', () => {
+     it('GET /api/articles can sort the array of articles to a column other than the default', () => {
          return request(app)
          .get('/api/articles?sort_by=article_id')
          .expect(200)
          .then(({body})=> {
              expect(body.articles).to.be.descendingBy('article_id')
+         })
+     });
+     it.only('GET /api/articles orders the articles in ascending order', () => {
+         return request(app)
+         .get('/api/articles?sort_by=created_at&order=asc')
+         .expect(200)
+         .then(({body})=> {
+             expect(body.articles).to.be.sortedBy('created_at', {descending: false})
          })
      });
     });

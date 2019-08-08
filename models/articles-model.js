@@ -39,11 +39,11 @@ const addNewCommentToArticle = (article_id, username, body) => {
     })
 };
 
-const fetchArticles = ({sort_by = 'created_at'}) => {
+const fetchArticles = ({sort_by = 'created_at', order = 'desc'}) => {
     return connection
     .select('articles.*')
     .from('articles')
-    .orderBy(sort_by, 'desc')
+    .orderBy(sort_by, order)
     .count({comment_count:'comments.article_id'})
     .leftJoin('comments', 'articles.article_id' , '=', 'comments.article_id')
     .groupBy('articles.article_id')
