@@ -161,8 +161,7 @@ describe('/api/', () => {
                 expect(body.comment).to.be.an('Object')
             })
         })
-        
-    it.only('GET /api/articles returns a 200 status and an array of article objects', () => {
+    it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
          .get('/api/articles')
          .expect(200)
@@ -180,13 +179,21 @@ describe('/api/', () => {
             )
          })
     });   
-     it.only('GET /api/articles can sort the array of articles, defaulting to date', () => {
+     it('GET /api/articles can sort the array of articles, defaulting to date', () => {
          return request(app)
          .get('/api/articles?sort_by=created_at')
          .expect(200)
          .then(({body})=> {
              expect(body.articles).to.be.descendingBy('created_at')
          })   
+     });
+     it.only('GET /api/articles can sort the array of articles to a column other than the default', () => {
+         return request(app)
+         .get('/api/articles?sort_by=article_id')
+         .expect(200)
+         .then(({body})=> {
+             expect(body.articles).to.be.descendingBy('article_id')
+         })
      });
     });
     describe('COMMENTS', () => {
