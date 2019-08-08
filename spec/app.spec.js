@@ -195,12 +195,20 @@ describe('/api/', () => {
              expect(body.articles).to.be.descendingBy('article_id')
          })
      });
-     it.only('GET /api/articles orders the articles in ascending order', () => {
+     it('GET /api/articles orders the articles in ascending order', () => {
          return request(app)
          .get('/api/articles?sort_by=created_at&order=asc')
          .expect(200)
          .then(({body})=> {
              expect(body.articles).to.be.sortedBy('created_at', {descending: false})
+         })
+     });
+     it.only('GET /api/articles returns 404 if a bad request is made to the endpoint', () => {
+         return request(app)
+         .get('/api/articlessss')
+         .expect(404)
+         .then(({body})=> {
+             expect(body.msg).to.eql('Page Not Found')
          })
      });
     });
