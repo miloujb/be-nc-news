@@ -51,16 +51,17 @@ const fetchArticles = () => {
     })
 }
 
-const fetchComments = (article_id, {sort_by} = 'created_at') => {
+const fetchComments = (article_id, {sort_by}) => {
     return connection
     .select('*')
     .from('comments')
-    .orderBy(sort_by)
+    .orderBy(sort_by || 'created_at')
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         if(!comments.length)
         return Promise.reject({msg: 'Page Not Found', status: 404})
-        else return comments
+        console.log(comments)
+        return comments
     })
 }
 
