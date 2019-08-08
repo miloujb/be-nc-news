@@ -58,7 +58,7 @@ const fetchComments = (article_id, sorted_by = 'created_at') => {
     .from('articles')
     .leftJoin('comments', 'comments.article_id', '=', 'articles.article_id')
     .groupBy('comments.comment_id')
-    .orderBy(sorted_by, 'desc')
+    .orderBy(sorted_by || 'votes')
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         if(!comments.length)
