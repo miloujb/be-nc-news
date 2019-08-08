@@ -229,7 +229,7 @@ describe('/api/', () => {
         });
     });
     describe('COMMENTS', () => {
-        it.only('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
+        it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
             return request(app)
             .post('/api/articles/1355/comments')
             .send({username: 'butter_bridge', body: 'this test should fail'})
@@ -296,12 +296,12 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 400 error if the article does not exist', () => {
+        it.only('GET /api/articles/article_id/comments returns a 400 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/164/comments')
             .expect(404)
             .then(({body})=> {
-                expect(body.msg).to.eql('Bad Request')
+                expect(body.msg).to.eql('Page Not Found')
             })
         });
         it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
