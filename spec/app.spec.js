@@ -240,23 +240,26 @@ describe('/api/', () => {
                 expect(body.comments[0].article_id).to.eql(1)
             })
         });
-        it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
+        it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error in the endpoint', () => {
             return request(app)
             .get('/api/articles/1/commmments')
+            .expect(404)
             .then(({body}) => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
+        it.only('GET /api/articles/article_id/comments returns a 400 error if an invalid article_id is passed', () => {
             return request(app)
             .get('/api/articles/blackberries/comments')
+            .expect(400)
             .then(({body}) => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+        it.only('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/164/comments')
+            .expect(404)
             .then(({body})=> {
                 expect(body.msg).to.eql('Page Not Found')
             })
@@ -269,7 +272,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('created_at')
             })
         });
-        it.only('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
+        it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
             return request(app)
             .get('/api/articles/1/comments')
             .expect(200)
@@ -277,7 +280,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('created_at', {ascending: false})
             })
         });
-        it.only('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
+        it('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=comment_id')
             .expect(200)
@@ -285,7 +288,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('comment_id')
             })
         });
-        it.only('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
+        it('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=votes')
             .expect(200)
@@ -294,7 +297,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('votes', {ascending: false})
             })
         });
-        it.only('GET /api/articles/article_id/comments can be changed to sort by author', () => {
+        it('GET /api/articles/article_id/comments can be changed to sort by author', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=author')
             .expect(200)
@@ -302,14 +305,15 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('author')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
+        it.only('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=NotAColumn')
+            .expect(404)
             .then(({body}) => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it.only('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
+        it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?order=asc')
             .expect(200)
@@ -318,7 +322,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.an('Array')
             })
         });
-        it.only('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
+        it('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=comment_id&order=asc')
             .expect(200)
@@ -326,7 +330,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.sortedBy('comment_id');
             })
         });
-        it.only('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
+        it('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=votes&order=asc')
             .expect(200)
