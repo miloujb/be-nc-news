@@ -111,7 +111,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Bad Request')
         })
     });
-    it.only('PATCH /api/articles/article_id returns a 404 error if an article id is passed that does not exist', () => {
+    it('PATCH /api/articles/article_id returns a 404 error if an article id is passed that does not exist', () => {
         return request(app)
         .patch('/api/articles/1155')
         .expect(404)
@@ -228,7 +228,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
+    it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .expect(200)
@@ -236,7 +236,7 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('created_at', {ascending: false})
         })
     });
-    it.only('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
+    it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
         return request(app)
         .get('/api/articles/1/comments')
         .then(({body}) => {
@@ -250,6 +250,16 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('comment_id', {ascending: false})
         })
     });
+    xit('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
+        return request(app)
+        .get('/api/articles/1/comments?sort_by=votes')
+        .then(({body})=> {
+            console.log(body.comments)
+            expect(body.comments).to.be.sortedBy('votes', {ascending: false})
+        })
+    });
+
+
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
         .get('/api/articles')
