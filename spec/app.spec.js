@@ -116,13 +116,23 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('PATCH /api/articles/article_id returns a 404 error if an article id is passed that does not exist', () => {
+        it.only('PATCH /api/articles/article_id returns a 200 and an updated object if inc_votes is a negative number', () => {
             return request(app)
-            .patch('/api/articles/1155')
-            .expect(404)
+            .patch('/api/articles/1')
+            .send({inc_votes : -10})
+            .expect(200)
             .then(({body}) => {
-                expect(body.msg).to.eql('Page Not Found')
-            })
+              expect(body.article).to.have.keys(
+              'article_id',
+              'title',
+              'topic',
+              'author',
+              'body',
+              'created_at',
+              'votes'
+              )
+              expect(body.article.votes).to.eql(90)
+            })  
         });
         it('PATCH /api/articles/article_id returns a 400 status when inc_votes is not a number', () => {
             return request(app)
