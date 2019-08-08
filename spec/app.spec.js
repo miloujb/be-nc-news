@@ -211,7 +211,7 @@ describe('/api/', () => {
              expect(body.msg).to.eql('Page Not Found')
          })
      });
-     it.only('GET /api/articles returns a 400 if the sort_by request is invalid', () => {
+     it('GET /api/articles returns a 400 if the sort_by request is invalid', () => {
          return request(app)
          .get('/api/articles?sort_by=44')
          .expect(400)
@@ -219,6 +219,14 @@ describe('/api/', () => {
              expect(body.msg).to.eql('Bad Request')
          })
      });
+     it.only('GET /api/articles will default to descending order if an invalid request is made to the order request', () => {
+         return request(app)
+         .get('/api/articles?sort_by=created_at&order=fish')
+         .expect(200)
+         .then(({body})=> {
+             expect(body.articles).to.be.sortedBy('created_at')
+         })
+        });
     });
     describe('COMMENTS', () => {
         it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
