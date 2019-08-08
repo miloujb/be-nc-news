@@ -162,14 +162,14 @@ describe('/api/', () => {
             })
         })
         
-    // it('GET /api/articles returns a 200 status and an array of article objects', () => {
-    //     return request(app)
-    //      .get('/api/articles')
-    //      .expect(200)
-    //      .then(({body})=> {
-    //          expect(body.articles).to.be.an('Array');
-    //      })
-    //});   
+    it.only('GET /api/articles returns a 200 status and an array of article objects', () => {
+        return request(app)
+         .get('/api/articles')
+         .expect(200)
+         .then(({body})=> {
+             expect(body.articles).to.be.an('Array');
+         })
+    });   
     // it('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
     //     return request(app)
     //     .get('/api/articles')
@@ -346,7 +346,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.sortedBy('author');
             })
         });
-        it.only('GET /api/articles/article_id/comments returns a 404 if there is a spelling error', () => {
+        it('GET /api/articles/article_id/comments returns a 404 if there is a spelling error', () => {
             return request(app)
             .get('/api/articles/1/commentds??sort_by=author&order=as')
             .then(({body})=> {
