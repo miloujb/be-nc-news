@@ -38,8 +38,6 @@ const getArticles = (req, res, next) => {
 }
 
 const getComments = (req, res, next) => {
-    console.log(req.params)
-    console.log(req.query)
     const {article_id} = req.params
     const sort_by = req.query
     fetchComments(article_id, req.query)
