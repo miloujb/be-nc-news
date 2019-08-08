@@ -56,7 +56,7 @@ describe('/api/', () => {
             })
         });
     });
-    describe('ARTICLES', () => {
+    describe.only('ARTICLES', () => {
         it('GET /api/articles/article_id returns a 200 message and the article object', () => {
             return request(app)
             .get('/api/articles/1')
@@ -162,7 +162,7 @@ describe('/api/', () => {
             })
         })
         
-    it('GET /api/articles returns a 200 status and an array of article objects', () => {
+    it.only('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
          .get('/api/articles')
          .expect(200)
@@ -186,6 +186,14 @@ describe('/api/', () => {
                  'comment_count'
              )
          })
+     });
+     xit('GET /api/articles can sort the array of articles, defaulting to date', () => {
+         return request(app)
+         .get('/api/articles?sort_by=created_at')
+         .expect(200)
+         .then(({body})=> {
+             expect(body.articles).to.be.descendingBy('created_at')
+         })   
      });
     });
     describe('COMMENTS', () => {

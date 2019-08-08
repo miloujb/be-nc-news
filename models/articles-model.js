@@ -41,12 +41,10 @@ const addNewCommentToArticle = (article_id, username, body) => {
 
 const fetchArticles = () => {
     return connection
-    .select('articles.*')
+    .select('*')
     .from('articles')
-    .leftJoin('comments', 'articles.article_id' , '=', 'comments.article_id')
-    .count({comment_count:'comments.article_id'})
-    .groupBy('articles.article_id')
     .then(articles => {
+        console.log(articles)
         return articles
     })
 }
