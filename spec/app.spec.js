@@ -269,31 +269,35 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('created_at')
             })
         });
-        it('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
+        it.only('GET /api/articles/article_id/comments returns an array sorted by created_at in desc order', () => {
             return request(app)
             .get('/api/articles/1/comments')
+            .expect(200)
             .then(({body}) => {
                 expect(body.comments).to.be.descendingBy('created_at', {ascending: false})
             })
         });
-        it('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
+        it.only('GET /api/articles/article_id/comments can be changed to sort by comment_id', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=comment_id')
+            .expect(200)
             .then(({body})=> {
                 expect(body.comments).to.be.descendingBy('comment_id')
             })
         });
-        it('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
+        it.only('GET /api/articles/article_id/comments can be changed to sort by votes in descending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=votes')
+            .expect(200)
             .then(({body})=> {
                 console.log(body.comments)
                 expect(body.comments).to.be.descendingBy('votes', {ascending: false})
             })
         });
-        it('GET /api/articles/article_id/comments can be changed to sort by author', () => {
+        it.only('GET /api/articles/article_id/comments can be changed to sort by author', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=author')
+            .expect(200)
             .then(({body})=> {
                 expect(body.comments).to.be.descendingBy('author')
             })
@@ -305,29 +309,32 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
+        it.only('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?order=asc')
+            .expect(200)
             .then(({body})=> {
                 expect(body.comments).to.be.sortedBy('created_at')
                 expect(body.comments).to.be.an('Array')
             })
         });
-        it('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
+        it.only('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=comment_id&order=asc')
+            .expect(200)
             .then(({body}) => {
                 expect(body.comments).to.be.sortedBy('comment_id');
             })
         });
-        it('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
+        it.only('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=votes&order=asc')
+            .expect(200)
             .then(({body}) => {
                 expect(body.comments).to.be.sortedBy('votes');
             })
         });
-        it.only('GET /api/articles/article_id/comments can sort by author in ascending order', () => {
+        it('GET /api/articles/article_id/comments can sort by author in ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=author&order=asc')
             .expect(200)
