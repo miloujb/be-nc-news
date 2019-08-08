@@ -236,7 +236,7 @@ describe('/api/', () => {
                 expect(body.articles[0]).to.be.an('Object')
             })
         });
-    it.only('GET /api/articles filters the articles by the author, which is the same as the author declared in the query', () => {
+    it('GET /api/articles filters the articles by the author, which is the same as the author declared in the query', () => {
             return request(app)
             .get('/api/articles?author=butter_bridge')
             .expect(200)
@@ -244,6 +244,15 @@ describe('/api/', () => {
                 expect(body.articles[0].author).to.eql('butter_bridge')
             })
         });
+    it.only('GET /api/articles filters the articles by topic, and returns an array of objects', () => {
+        return request(app)
+        .get('/api/articles?topic=mitch')
+        .expect(200)
+        .then(({body})=> {
+            expect(body.articles).to.be.an('Array')
+            expect(body.articles[0]).to.be.an('Object')
+        })
+    });
     });
     describe('COMMENTS', () => {
         it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {

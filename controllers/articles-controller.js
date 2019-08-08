@@ -41,7 +41,7 @@ const getArticles = (req, res, next) => {
 const getComments = (req, res, next) => {
     const {article_id} = req.params
     const sort_by = req.query
-    fetchComments(article_id, req.query, author)
+    fetchComments(article_id, req.query, author, topic)
     .then(comments => {
         res.status(200).send({comments})
     })
