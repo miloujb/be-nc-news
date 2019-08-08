@@ -56,7 +56,7 @@ describe('/api/', () => {
             })
         });
     });
-    describe.only('ARTICLES', () => {
+    describe('ARTICLES', () => {
         it('GET /api/articles/article_id returns a 200 message and the article object', () => {
             return request(app)
             .get('/api/articles/1')
@@ -219,7 +219,7 @@ describe('/api/', () => {
              expect(body.msg).to.eql('Bad Request')
          })
      });
-     it.only('GET /api/articles will default to descending order if an invalid request is made to the order request', () => {
+     it('GET /api/articles will default to descending order if an invalid request is made to the order request', () => {
          return request(app)
          .get('/api/articles?sort_by=created_at&order=fish')
          .expect(200)
@@ -229,13 +229,13 @@ describe('/api/', () => {
         });
     });
     describe('COMMENTS', () => {
-        it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
+        it.only('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
             return request(app)
             .post('/api/articles/1355/comments')
             .send({username: 'butter_bridge', body: 'this test should fail'})
-            .expect(404)
+            .expect(400)
             .then(({body}) => {
-                expect(body.msg).to.eql('Page Not Found')
+                expect(body.msg).to.eql('Bad Request')
             })
         });
         it('POST /api/articles/article_id/comments returns a 400 if a bad request is made to the article_id endpoint', () => {
@@ -296,12 +296,12 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+        it('GET /api/articles/article_id/comments returns a 400 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/164/comments')
             .expect(404)
             .then(({body})=> {
-                expect(body.msg).to.eql('Page Not Found')
+                expect(body.msg).to.eql('Bad Request')
             })
         });
         it('GET /api/articles/article_id/comments returns an array of comment objects sorted by the default of created_at', () => {
@@ -348,9 +348,9 @@ describe('/api/', () => {
         it('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=NotAColumn')
-            .expect(404)
+            .expect(400)
             .then(({body}) => {
-                expect(body.msg).to.eql('Page Not Found')
+                expect(body.msg).to.eql('Bad Request')
             })
         });
         it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
