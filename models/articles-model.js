@@ -55,7 +55,7 @@ const fetchComments = (article_id, {sort_by}) => {
     return connection
     .select('*')
     .from('comments')
-    .orderBy(sort_by || 'created_at')
+    .orderBy(sort_by || 'created_at', 'desc')
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         if(!comments.length)
