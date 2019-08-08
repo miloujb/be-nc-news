@@ -52,8 +52,9 @@ const fetchArticles = ({sort_by = 'created_at', order = 'desc', author, topic}) 
         if(topic) filteringQuery.where('articles.topic', '=', topic)
     })
     .then(articles => {
-        console.log(articles)
-        return articles
+        if(!articles.length)
+        return Promise.reject({msg: 'Page Not Found', status: 404})
+        else return articles
     })
 }
 

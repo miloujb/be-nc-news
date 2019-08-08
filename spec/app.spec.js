@@ -253,14 +253,21 @@ describe('/api/', () => {
             expect(body.articles[0]).to.be.an('Object')
         })
     });
-    it.only('GET /api/articles filters the articles by topic, which is the same as the topic declared in the query', () => {
+    it('GET /api/articles filters the articles by topic, which is the same as the topic declared in the query', () => {
         return request(app)
         .get('/api/articles?topic=mitch')
         .expect(200)
         .then(({body})=>{
             expect(body.articles[0].topic).to.eql('mitch')
         })
-        
+    });
+    it.only('GET /api/articles returns a 404 if there is no articles.length property', () => {
+        return request(app)
+        .get('/api/articles?topic=spinach')
+        .expect(404)
+        .then(({body})=> {
+            expect(body.msg).to.eql('Page Not Found')
+        })
     });
     });
     describe('COMMENTS', () => {
