@@ -443,5 +443,24 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
+        it.only('PATCH /api/comments/comment_id returns a 200 and an updated object', () => {
+            return request(app)
+            .patch('/api/comments/1')
+            .send({inc_votes: 1})
+            .expect(200)
+            .then(({body}) => {
+                console.log(body.comment)
+                expect(body.comment).to.have.keys( 
+                    'article_id',
+                    'comment_id',
+                    'body',
+                    'votes',
+                    'author',
+                    'created_at'
+                )
+                expect(body.comment.votes).to.equal(17)
+                expect(body.comment).to.be.an('Object')
+        });
     })
+})
 });
