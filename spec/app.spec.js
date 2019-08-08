@@ -320,11 +320,19 @@ describe('/api/', () => {
                 expect(body.comments).to.be.sortedBy('comment_id');
             })
         });
-        it.only('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
+        it('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=votes&order=asc')
             .then(({body}) => {
                 expect(body.comments).to.be.sortedBy('votes');
+            })
+        });
+        it.only('GET /api/articles/article_id/comments can sort by author in ascending order', () => {
+            return request(app)
+            .get('/api/articles/1/comments?sort_by=author&order=asc')
+            .expect(200)
+            .then(({body})=> {
+                expect(body.comments).to.be.sortedBy('author');
             })
         });
     })
