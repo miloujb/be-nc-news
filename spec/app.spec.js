@@ -305,12 +305,19 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it.only('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
+        it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?order=asc')
             .then(({body})=> {
                 expect(body.comments).to.be.sortedBy('created_at')
                 expect(body.comments).to.be.an('Array')
+            })
+        });
+        it.only('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
+            return request(app)
+            .get('/api/articles/1/comments?sort_by=comment_id&order=asc')
+            .then(({body}) => {
+                expect(body.comments).to.be.sortedBy('comment_id');
             })
         });
     })
