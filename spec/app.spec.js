@@ -162,7 +162,7 @@ describe('/api/', () => {
             })
         })
         
-    it.only('GET /api/articles returns a 200 status and an array of article objects', () => {
+    it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
          .get('/api/articles')
          .expect(200)
@@ -170,7 +170,7 @@ describe('/api/', () => {
              expect(body.articles).to.be.an('Array');
          })
     });   
-    it.only('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
+    it('GET /api/articles responds with an array of owner objects, with each article having the right properties', () => {
          return request(app)
          .get('/api/articles')
          .expect(200)
@@ -187,7 +187,7 @@ describe('/api/', () => {
              )
          })
      });
-     xit('GET /api/articles can sort the array of articles, defaulting to date', () => {
+     it.only('GET /api/articles can sort the array of articles, defaulting to date', () => {
          return request(app)
          .get('/api/articles?sort_by=created_at')
          .expect(200)
