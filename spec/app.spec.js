@@ -258,11 +258,18 @@ describe('/api/', () => {
             expect(body.comments).to.be.sortedBy('votes', {ascending: false})
         })
     });
-    it.only('GET /api/articles/article_id/comments can be changed to sort by author', () => {
+    it('GET /api/articles/article_id/comments can be changed to sort by author', () => {
         return request(app)
         .get('/api/articles/1/comments?sort_by=author')
         .then(({body})=> {
             expect(body.comments).to.be.sortedBy('author')
+        })
+    });
+    it.only('GET /api/articles/article_id/comments returns a 400 if a request is made to a column that does not exist', () => {
+        return request(app)
+        .get('/api/articles/1/comments?sort_by=NotAColumn')
+        .then(({body}) => {
+            expect(body.msg).to.eql('Bad Request')
         })
     });
 
