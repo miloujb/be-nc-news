@@ -272,6 +272,10 @@ describe('/api/', () => {
     it.only('GET /api/articles returns a 404 if the author passed in req.query is undefined ', () => {
         return request(app)
         .get('/api/articles?author=pineapple')
+        .expect(404)
+        .then(({body})=> {
+            expect(body.msg).to.eql('Page Not Found')
+        })
     });
     });
     describe('COMMENTS', () => {
