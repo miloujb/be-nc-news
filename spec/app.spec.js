@@ -227,13 +227,21 @@ describe('/api/', () => {
              expect(body.articles).to.be.sortedBy('created_at')
          })
         });
-    it.only('GET /api/articles filters the articles by the author, which is returned as an array', () => {
+    it('GET /api/articles filters the articles by the author, which is returned as an array', () => {
             return request(app)
             .get('/api/articles?author=butter_bridge')
             .expect(200)
             .then(({body})=> {
                 expect(body.articles).to.be.an('Array')
                 expect(body.articles[0]).to.be.an('Object')
+            })
+        });
+    it.only('GET /api/articles filters the articles by the author, which is the same as the author declared in the query', () => {
+            return request(app)
+            .get('/api/articles?author=butter_bridge')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.articles[0].author).to.eql('butter_bridge')
             })
         });
     });
