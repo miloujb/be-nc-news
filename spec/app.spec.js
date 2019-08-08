@@ -313,11 +313,18 @@ describe('/api/', () => {
                 expect(body.comments).to.be.an('Array')
             })
         });
-        it.only('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
+        it('GET /api/articles/article_id/comments can return an array sorted by comment_id, changed to ascending order', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=comment_id&order=asc')
             .then(({body}) => {
                 expect(body.comments).to.be.sortedBy('comment_id');
+            })
+        });
+        it.only('GET /api/articles/article_id/comments can sort by votes in ascending order', () => {
+            return request(app)
+            .get('/api/articles/1/comments?sort_by=votes&order=asc')
+            .then(({body}) => {
+                expect(body.comments).to.be.sortedBy('votes');
             })
         });
     })
