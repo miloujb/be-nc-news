@@ -14,7 +14,7 @@ describe('/api/', () => {
     after(() => {
         connection.destroy();
     })
-    describe('TOPICS', () => {
+    describe.only('TOPICS', () => {
         it('GET /api/topics returns all topic information', () => {
             return request(app)
             .get('/api/topics')
@@ -33,13 +33,17 @@ describe('/api/', () => {
                 expect(body.msg).to.equal('Page Not Found')
             })
         });
-        it('DELETE /api/topics returns a 405 error when a delete request is made to the topics endpoint', () => {
-            return request(app)
-            .delete('/api/topics')
-            .expect(405)
-            .then(({body})=> {
-                expect(body.msg).to.eql('Method Not Allowed')
-            })
+        it("POST/PATCH/DELETE- status 405 “method not allowed” message when trying to post, patch or delete a topic", () => {
+            const invalidMethods = ['post', 'patch', 'delete'];
+            const methodPromises = invalidMethods.map(method => {
+                return request(app)
+                [method]('/api/topics')
+                    .expect(405)
+                    .then(({ body }) => {
+                        expect(body.msg).to.equal("Method Not Allowed")
+                    });
+            });
+            return Promise.all(methodPromises);
         });
     });
     describe('USERS', () => {
@@ -92,7 +96,7 @@ describe('/api/', () => {
 
             })
         });
-        it('GET /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
+        it('GET /api/articles/article_id returns a 404 error if an invalid article id is passed', () => {
             return request(app)
             .get('/api/articles/parsnips')
             .expect(400)
@@ -251,9 +255,9 @@ describe('/api/', () => {
      it('GET /api/articles returns a 400 if the sort_by request is invalid', () => {
          return request(app)
          .get('/api/articles?sort_by=44')
-         .expect(400)
+         .expect(404)
          .then(({body})=> {
-             expect(body.msg).to.eql('Bad Request')
+             expect(body.msg).to.eql('Page Not Found')
          })
      });
      it('GET /api/articles will default to descending order if an invalid request is made to the order request', () => {
@@ -298,7 +302,7 @@ describe('/api/', () => {
             expect(body.articles[0].topic).to.eql('mitch')
         })
     });
-    it.only('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
+    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
         return request(app)
         .get('/api/articles?topic=spinach')
         .expect(404)
@@ -306,7 +310,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it.only('GET /api/articles returns a 404 if the author passed in req.query is undefined ', () => {
+    it('GET /api/articles returns a 404 if the author passed in req.query is undefined ', () => {
         return request(app)
         .get('/api/articles?author=pineapple')
         .expect(404)
@@ -314,15 +318,27 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
+    it("ERROR - status 405 “Method Not Allowed” message when trying to delete an article", () => {
+        const invalidMethods = ['post', 'patch', 'delete'];
+        const methodPromises = invalidMethods.map(method => {
+            return request(app)
+            [method]('/api/articles')
+                .expect(405)
+                .then(({ body }) => {
+                    expect(body.msg).to.equal("Method Not Allowed")
+                });
+        });
+        return Promise.all(methodPromises);
+    });
     });
     describe('COMMENTS', () => {
         it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
             return request(app)
             .post('/api/articles/1355/comments')
             .send({username: 'butter_bridge', body: 'this test should fail'})
-            .expect(400)
+            .expect(404)
             .then(({body}) => {
-                expect(body.msg).to.eql('Bad Request')
+                expect(body.msg).to.eql('Page Not Found')
             })
         });
         it('POST /api/articles/article_id/comments returns a 400 if a bad request is made to the article_id endpoint', () => {
@@ -435,9 +451,9 @@ describe('/api/', () => {
         it('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=NotAColumn')
-            .expect(400)
+            .expect(404)
             .then(({body}) => {
-                expect(body.msg).to.eql('Bad Request')
+                expect(body.msg).to.eql('Page Not Found')
             })
         });
         it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {
@@ -556,6 +572,18 @@ describe('/api/', () => {
             .then(({body})=> {
                 expect(body.msg).to.eql('Page Not Found')
             })
+        });
+        it("ERROR - status 405 “method not allowed” message when trying to get & post a comment", () => {
+            const invalidMethods = ['get', 'post'];
+            const methodPromises = invalidMethods.map(method => {
+                return request(app)
+                [method]('/api/comments/3')
+                    .expect(405)
+                    .then(({ body }) => {
+                        expect(body.msg).to.equal("Method Not Allowed")
+                    });
+            });
+            return Promise.all(methodPromises);
         });
     })
 });
