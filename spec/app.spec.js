@@ -160,12 +160,13 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('PATCH /api/articles/article_id returns a 200 status if there are no votes on inc_votes', () => {
+        it.only('PATCH /api/articles/article_id returns a 400 status if there are no votes on inc_votes', () => {
             return request(app)
             .patch('/api/articles/1')
-            .expect(200)
+            .send({inc_votes: ''})
+            .expect(400)
             .then(({body}) => {
-                expect(body.article.votes).to.eql(101)
+                expect(body.msg).to.eql('Bad Request')
             })
         });
         it('POST /api/articles/article_id takes a username and body, and returns the new object', () => {
@@ -520,7 +521,7 @@ describe('/api/', () => {
         // it.only('PATCH /api/comment/:comment_id returns a 400 status when inc_votes has more than one value', () => {
         //     return request(app)
         //     .patch('/api/comments/1')
-        //     .send({key: 'emily', value : 'failing', inc_votes: 1})
+        //     .send({inc_votes: 1, name: 'mitch'})
         //     .expect(400)
         //     .then(({body})=> {
         //         expect(body.msg).to.eql('Bad Request')
@@ -535,7 +536,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
+        it('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
             return request(app)
             .delete('/api/comments/1')
             .expect(204)
@@ -548,7 +549,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('DELETE /api/comments/:comment_id returns a 404 status if comment_id does not exist', () => {
+        it('DELETE /api/comments/:comment_id returns a 404 status if comment_id does not exist', () => {
             return request(app)
             .delete('/api/comments/239')
             .expect(404)
