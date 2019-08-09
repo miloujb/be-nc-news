@@ -18,7 +18,6 @@ app.use(methodNotAllowed)
 
 
 // app.use((err, req, res, next) => {
-//   console.log(err)
 //   if (err.status === 404) res.status(404).send({ msg: err.msg });
 //   else if (err.status === 405) res.status(405).send({msg: err.msg})
 //   else if (err.code === '22P02'||'42703') res.status(400).send({ msg: 'Bad Request' });

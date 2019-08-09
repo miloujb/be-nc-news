@@ -29,7 +29,6 @@ describe('/api/', () => {
             .get('/api/topicsss')
             .expect(404)
             .then(({body}) => {
-                console.log(body)
                 expect(body.msg).to.equal('Page Not Found')
             })
         });
@@ -46,7 +45,7 @@ describe('/api/', () => {
             return Promise.all(methodPromises);
         });
     });
-    describe.only('USERS', () => {
+    describe('USERS', () => {
         it('GET /api/users/:username returns the user object', () => {
             return request(app)
             .get('/api/users/butter_bridge')
@@ -200,7 +199,6 @@ describe('/api/', () => {
             .send({username: 'butter_bridge', body: 'Insert vaguely amusing new comment here' })
             .expect(201)
             .then(({body}) => {
-                console.log(body.comment)
                 expect(body.comment).to.have.keys(
                    'author',
                    'body',
@@ -391,7 +389,6 @@ describe('/api/', () => {
             .get('/api/articles/1/comments')
             .expect(200)
             .then(({body}) => {
-                console.log(body.comments)
                 expect(body.comments[0].article_id).to.eql(1)
             })
         });
@@ -448,7 +445,6 @@ describe('/api/', () => {
             .get('/api/articles/1/comments?sort_by=votes')
             .expect(200)
             .then(({body})=> {
-                console.log(body.comments)
                 expect(body.comments).to.be.descendingBy('votes', {ascending: false})
             })
         });
@@ -514,7 +510,6 @@ describe('/api/', () => {
             .send({inc_votes: 1})
             .expect(200)
             .then(({body}) => {
-                console.log(body.comment)
                 expect(body.comment).to.have.keys( 
                     'article_id',
                     'comment_id',
@@ -533,7 +528,6 @@ describe('/api/', () => {
         .send({inc_votes: -5})
         .expect(200)
         .then(({body}) => {
-            console.log(body.comment)
             expect(body.comment).to.have.keys( 
                 'article_id',
                 'comment_id',

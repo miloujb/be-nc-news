@@ -11,7 +11,6 @@ const patchVotesToComment = (req, res, next) => {
 }
 
 const removeComment = (req, res, next) => {
-    console.log(req.params)
     const {comment_id} = req.params
     deleteComment(comment_id)
     .then(comment => {
