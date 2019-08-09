@@ -99,7 +99,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it.only('GET /api/articles/article_id returns a 404 if the endpoint is misspelled', () => {
+        it('GET /api/articles/article_id returns a 404 if the endpoint is misspelled', () => {
             return request(app)
             .get('/api/articlesssss/1')
             .expect(404)
@@ -288,7 +288,7 @@ describe('/api/', () => {
             expect(body.articles[0].topic).to.eql('mitch')
         })
     });
-    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {res.status(404).send({ msg: err.msg });
+    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
         return request(app)
         .get('/api/articles?topic=spinach')
         .expect(404)
@@ -526,14 +526,10 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        xit('PATCH /api/comment/:comment_id returns a 400 if there is more than one value on inc_votes', () => {
+        it.only('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
             return request(app)
-            .patch('/api/comments/1')
-            .send({name: 'mitch', inc_votes: 1})
-            .expect(400)
-            .then(({body})=> {
-                expect(body.msg).to.eql('Bad Request')
-            })
+            .delete('/api/comments/1')
+            .expect(204)
         });
     })
 });
