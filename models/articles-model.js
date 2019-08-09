@@ -54,7 +54,7 @@ const fetchArticles = ({sort_by = 'created_at', order = 'desc', author, topic}) 
     .then(articles => {
         if(!articles.length)
         return Promise.reject({msg: 'Page Not Found', status: 404})
-        else return articles
+        else return articles;
     })
 }
 

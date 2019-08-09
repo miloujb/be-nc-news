@@ -131,6 +131,16 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
+        it('GET /api/articles/article_id returns an input of null as 0', () => {
+            return request(app)
+            .get('/api/articles/2')
+            .expect(200)
+            .then(({body})=> {
+                console.log(body.article)
+                expect(body.article.votes).to.eql(0)
+                expect(body.article.comment_count).to.eql(0)
+            })
+        });
         it('PATCH /api/articles/article_id returns a 200 status and an object', () => {
             return request(app)
             .patch('/api/articles/1')
