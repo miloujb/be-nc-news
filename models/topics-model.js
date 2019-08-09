@@ -2,7 +2,7 @@ const connection = require('../db/data/connection');
 
 const fetchTopics = () => {
     return connection
-    .select('*').from('topics');
+    .select('*').from('topics')
 }
 
 module.exports = fetchTopics;

@@ -7,7 +7,7 @@ const fetchUserById = ({username}) => {
     .then((user) => {
         if(!user.length)
         return Promise.reject({msg: 'Page Not Found', status: 404})
-   else return user; 
+        else return user; 
     }
 )}
 

@@ -29,7 +29,16 @@ describe('/api/', () => {
             .get('/api/topicsss')
             .expect(404)
             .then(({body}) => {
+                console.log(body)
                 expect(body.msg).to.equal('Page Not Found')
+            })
+        });
+        it('DELETE /api/topics returns a 405 error when a delete request is made to the topics endpoint', () => {
+            return request(app)
+            .delete('/api/topics')
+            .expect(405)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Method Not Allowed')
             })
         });
     });
@@ -160,7 +169,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('PATCH /api/articles/article_id returns a 400 status if there are no votes on inc_votes', () => {
+        it('PATCH /api/articles/article_id returns a 400 status if there are no votes on inc_votes', () => {
             return request(app)
             .patch('/api/articles/1')
             .send({inc_votes: ''})
@@ -289,7 +298,7 @@ describe('/api/', () => {
             expect(body.articles[0].topic).to.eql('mitch')
         })
     });
-    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
+    it.only('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
         return request(app)
         .get('/api/articles?topic=spinach')
         .expect(404)
@@ -297,7 +306,7 @@ describe('/api/', () => {
             expect(body.msg).to.eql('Page Not Found')
         })
     });
-    it('GET /api/articles returns a 404 if the author passed in req.query is undefined ', () => {
+    it.only('GET /api/articles returns a 404 if the author passed in req.query is undefined ', () => {
         return request(app)
         .get('/api/articles?author=pineapple')
         .expect(404)
@@ -518,15 +527,6 @@ describe('/api/', () => {
               expect(body.msg).to.eql('Bad Request')
             }) 
         });
-        // it.only('PATCH /api/comment/:comment_id returns a 400 status when inc_votes has more than one value', () => {
-        //     return request(app)
-        //     .patch('/api/comments/1')
-        //     .send({inc_votes: 1, name: 'mitch'})
-        //     .expect(400)
-        //     .then(({body})=> {
-        //         expect(body.msg).to.eql('Bad Request')
-        //     })
-        // });
         it('PATCH /api/comment/:comment_id returns a 400 if there is no number as the value on inc_votes', () => {
             return request(app)
             .patch('/api/comments/1')
