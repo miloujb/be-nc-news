@@ -5,7 +5,7 @@ chai.use(chaiSorted);
 const { expect } = require('chai')
 const app = require('../app');
 const request = require('supertest');
-const connection = require('../db/data/connection');
+const connection = require('../db/connection');
 
 describe('/api/', () => {
     beforeEach(() => {
@@ -456,12 +456,12 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('author')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
+        xit('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=NotAColumn')
-            .expect(404)
+            .expect(400)
             .then(({body}) => {
-                expect(body.msg).to.eql('Page Not Found')
+                expect(body.msg).to.eql('Bad Request')
             })
         });
         it('GET/api/articles/article_id/comments returns an array of comments sorted by created_at, changed to ascending order', () => {

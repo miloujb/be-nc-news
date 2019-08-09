@@ -1,4 +1,4 @@
-const connection = require('../db/data/connection');
+const connection = require('../db/connection');
 
 const fetchUserById = ({username}) => {
     return connection
