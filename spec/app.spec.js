@@ -159,6 +159,14 @@ describe('/api/', () => {
                 expect(body.article.votes).to.equal(101)
             })
         });
+        it('PATCH /api/articles/article_id ignores a patch request with no information in request body', () => {
+            return request(app)
+            .patch('/api/articles/1')
+            .expect(200)
+            .then(({body})=> {
+                expect(body.article.votes).to.eql(100)
+            })
+        });
         it('PATCH /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
             return request(app)
             .patch('/api/articles/banana')
@@ -189,15 +197,6 @@ describe('/api/', () => {
             return request(app)
             .patch('/api/articles/1')
             .send({inc_votes: 'NotANumber'})
-            .expect(400)
-            .then(({body}) => {
-                expect(body.msg).to.eql('Bad Request')
-            })
-        });
-        it('PATCH /api/articles/article_id returns a 400 status if there are no votes on inc_votes', () => {
-            return request(app)
-            .patch('/api/articles/1')
-            .send({inc_votes: ''})
             .expect(400)
             .then(({body}) => {
                 expect(body.msg).to.eql('Bad Request')
