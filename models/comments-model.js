@@ -3,7 +3,7 @@ const connection = require('../db/connection')
 const updateComment = (comment_id, inc_votes) => {
     return connection
     .from('comments')
-    .increment('votes', inc_votes)
+    .increment('votes', inc_votes || 0)
     .where('comments.comment_id', '=', comment_id)
     .returning('*')
     .then(article => {

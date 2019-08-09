@@ -531,6 +531,23 @@ describe('/api/', () => {
                 expect(body.comment).to.be.an('Object')
             });
         })
+        it('PATCH /api/comments/comment_id returns a 200 and original object when inc_votes is set to 0', () => {
+            return request(app)
+            .patch('/api/comments/1')
+            .expect(200)
+            .then(({body}) => {
+                expect(body.comment).to.have.keys( 
+                    'article_id',
+                    'comment_id',
+                    'body',
+                    'votes',
+                    'author',
+                    'created_at'
+                )
+                expect(body.comment.votes).to.equal(16)
+                expect(body.comment).to.be.an('Object')
+            });
+        })
         it('PATCH /api/comments/comment_id returns a 200 and an update object when inc_votes is a negative number', () => {
         return request(app)
         .patch('/api/comments/1')
@@ -557,15 +574,6 @@ describe('/api/', () => {
             .then(({body}) => {
               expect(body.msg).to.eql('Bad Request')
             }) 
-        });
-        it('PATCH /api/comment/:comment_id returns a 400 if there is no number as the value on inc_votes', () => {
-            return request(app)
-            .patch('/api/comments/1')
-            .send({inc_votes: ''})
-            .expect(400)
-            .then(({body})=> {
-                expect(body.msg).to.eql('Bad Request')
-            })
         });
         it('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
             return request(app)
