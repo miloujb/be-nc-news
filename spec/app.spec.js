@@ -517,6 +517,15 @@ describe('/api/', () => {
               expect(body.msg).to.eql('Bad Request')
             }) 
         });
+        // it.only('PATCH /api/comment/:comment_id returns a 400 status when inc_votes has more than one value', () => {
+        //     return request(app)
+        //     .patch('/api/comments/1')
+        //     .send({key: 'emily', value : 'failing', inc_votes: 1})
+        //     .expect(400)
+        //     .then(({body})=> {
+        //         expect(body.msg).to.eql('Bad Request')
+        //     })
+        // });
         it('PATCH /api/comment/:comment_id returns a 400 if there is no number as the value on inc_votes', () => {
             return request(app)
             .patch('/api/comments/1')
@@ -526,17 +535,25 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
+        it.only('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
             return request(app)
             .delete('/api/comments/1')
             .expect(204)
         });
-        it.only('DELETE /api/comments/:comment_id returns a 400 status if endpoint is invalid, i.e., not a number', () => {
+        it('DELETE /api/comments/:comment_id returns a 400 status if endpoint is invalid, i.e., not a number', () => {
             return request(app)
             .delete('/api/comments/satsuma')
             .expect(400)
             .then(({body})=> {
                 expect(body.msg).to.eql('Bad Request')
+            })
+        });
+        it.only('DELETE /api/comments/:comment_id returns a 404 status if comment_id does not exist', () => {
+            return request(app)
+            .delete('/api/comments/239')
+            .expect(404)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Page Not Found')
             })
         });
     })

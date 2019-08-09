@@ -17,6 +17,9 @@ const deleteComment = (comment_id) => {
     .from('comments')
     .where('comment_id', '=', comment_id)
     .del()
+    .then(comment => {
+        if(!comment) return Promise.reject({msg: 'Page Not Found', status: 404})
+    })
 }
 
 module.exports = { updateComment, deleteComment }
