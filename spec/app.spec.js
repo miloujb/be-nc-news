@@ -14,7 +14,7 @@ describe('/api/', () => {
     after(() => {
         connection.destroy();
     })
-    describe.only('TOPICS', () => {
+    describe('TOPICS', () => {
         it('GET /api/topics returns all topic information', () => {
             return request(app)
             .get('/api/topics')
@@ -46,7 +46,7 @@ describe('/api/', () => {
             return Promise.all(methodPromises);
         });
     });
-    describe('USERS', () => {
+    describe.only('USERS', () => {
         it('GET /api/users/:username returns the user object', () => {
             return request(app)
             .get('/api/users/butter_bridge')
@@ -67,6 +67,18 @@ describe('/api/', () => {
             .then(({body}) => {
                 expect(body.msg).to.equal('Page Not Found')
             })
+        });
+        it("POST/PATCH/DELETE- returns 405 status when trying to post, patch or delete a user", () => {
+            const invalidMethods = ["post", "patch", "delete"];
+            const methodPromises = invalidMethods.map(method => {
+                return request(app)
+                [method]("/api/users/butter_bridge")
+                    .expect(405)
+                    .then(({ body }) => {
+                        expect(body.msg).to.equal("Method Not Allowed");
+                    });
+            });
+            return Promise.all(methodPromises);
         });
     });
     describe('ARTICLES', () => {
