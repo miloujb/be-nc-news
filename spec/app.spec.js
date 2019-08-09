@@ -526,10 +526,18 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
+        it('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
             return request(app)
             .delete('/api/comments/1')
             .expect(204)
+        });
+        it.only('DELETE /api/comments/:comment_id returns a 400 status if endpoint is invalid, i.e., not a number', () => {
+            return request(app)
+            .delete('/api/comments/satsuma')
+            .expect(400)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Bad Request')
+            })
         });
     })
 });
