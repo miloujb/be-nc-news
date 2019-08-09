@@ -57,7 +57,15 @@ describe('/api/', () => {
         });
     });
     describe('ARTICLES', () => {
-        it('GET /api/articles/article_id returns a 200 message and the article object', () => {
+        it.only('GET /api/articles/article_id returns a 200 and the article object', () => {
+            return request(app)
+            .get('/api/articles/1')
+            .expect(200)
+            .then(({body})=> {
+                expect(body.article).to.be.an('Object')
+            })
+        })
+        it('GET /api/articles/article_id returns a 200 message and the article object with the correct keys', () => {
             return request(app)
             .get('/api/articles/1')
             .expect(200)
@@ -72,6 +80,7 @@ describe('/api/', () => {
                     'created_at', 
                     'comment_count' 
                 )
+
             })
         });
         it('GET /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
@@ -116,7 +125,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('PATCH /api/articles/article_id returns a 200 and an updated object if inc_votes is a negative number', () => {
+        it('PATCH /api/articles/article_id returns a 200 and an updated object if inc_votes is a negative number', () => {
             return request(app)
             .patch('/api/articles/1')
             .send({inc_votes : -10})
@@ -271,7 +280,7 @@ describe('/api/', () => {
             expect(body.articles[0].topic).to.eql('mitch')
         })
     });
-    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {
+    it('GET /api/articles returns a 404 if the topic passed in req.query is undefined', () => {res.status(404).send({ msg: err.msg });
         return request(app)
         .get('/api/articles?topic=spinach')
         .expect(404)
