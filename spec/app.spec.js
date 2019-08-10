@@ -378,7 +378,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it.only('POST returns a 400 error when the post request does not include all of the required keys', () => {
+        it('POST returns a 400 error when the post request does not include all of the required keys', () => {
             return request(app)
             .post('/api/articles/1/comments')
             .send({username: 'butter_bridge'})
@@ -591,6 +591,15 @@ describe('/api/', () => {
             .then(({body}) => {
               expect(body.msg).to.eql('Bad Request')
             }) 
+        });
+        it('PATCH /api/comments/comment_id returns a 404 not found if a valid comment_id is passed that does not exist', () => {
+            return request(app)
+            .patch('/api/comments/1000')
+            .send({inc_votes : 1})
+            .expect(404)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Page Not Found')
+            })
         });
         it('DELETE /api/comments/:comment_id returns a 204 if successful', () => {
             return request(app)
