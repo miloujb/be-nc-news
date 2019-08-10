@@ -393,6 +393,14 @@ describe('/api/', () => {
                 )
             })
         });
+        it('GET /api/articles/article_id/comments returns a 200 when the article exists, and an empty array of comments when there are no comments on the article', () => {
+            return request(app)
+            .get('/api/articles/2/comments')
+            .expect(200)
+            .then(({body})=>{
+                expect(body.comments).to.eql([])
+            })  
+        });
         it('GET /api/articles/article_id/comments returns an array of comment objects with the same article_id', () => {
             return request(app)
             .get('/api/articles/1/comments')
@@ -417,7 +425,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 400 error if the article does not exist', () => {
+        xit('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/164/comments')
             .expect(404)
