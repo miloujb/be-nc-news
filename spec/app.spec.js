@@ -46,13 +46,14 @@ describe('/api/', () => {
         });
     });
     describe('USERS', () => {
-        it('GET /api/users/:username returns the user object', () => {
+        it.only('GET /api/users/:username returns the user object', () => {
             return request(app)
             .get('/api/users/butter_bridge')
             .expect(200)
             .then(({body}) => {
-                expect(body.user).to.be.an('Array')
-                expect(body.user[0]).to.have.all.keys(
+                console.log(body)
+                expect(body).to.be.an('Object')
+                expect(body.user).to.have.all.keys(
                     'username',
                     'avatar_url',
                     'name'
