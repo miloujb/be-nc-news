@@ -271,7 +271,7 @@ describe('/api/', () => {
              expect(body.msg).to.eql('Page Not Found')
          })
      });
-     it('GET /api/articles returns a 400 if the sort_by request is invalid', () => {
+     it('GET /api/articles returns a 404 if the sort_by request is invalid', () => {
          return request(app)
          .get('/api/articles?sort_by=44')
          .expect(404)
@@ -376,6 +376,15 @@ describe('/api/', () => {
             .expect(404)
             .then(({body}) => {
                 expect(body.msg).to.eql('Page Not Found')
+            })
+        });
+        it.only('POST returns a 400 error when the post request does not include all of the required keys', () => {
+            return request(app)
+            .post('/api/articles/1/comments')
+            .send({username: 'butter_bridge'})
+            .expect(400)
+            .then(({body})=> {
+                expect(body.msg).to.eql('Bad Request')
             })
         });
         it('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
