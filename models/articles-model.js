@@ -33,7 +33,8 @@ const addNewCommentToArticle = (article_id, username, body) => {
     .into('comments')
     .returning('*')
     .then(comments => {
-        if(!comments.length)
+        console.log('in the model')
+        if(!comments[0].body)
         return Promise.reject({msg: 'Page Not Found', status: 404})
         else return comments[0]
     })
@@ -65,8 +66,9 @@ const fetchComments = (article_id, {sort_by, order}) => {
     .orderBy(sort_by || 'created_at', order || 'desc')
     .where('comments.article_id', '=', article_id)
     .then(comments => {
+        console.log('inside model')
         if (!comments) return Promise.reject({msg: 'Page Not Found', status: 404})
-        else return comments
+        return comments
     })
 }
 

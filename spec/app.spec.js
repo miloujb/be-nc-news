@@ -46,7 +46,7 @@ describe('/api/', () => {
         });
     });
     describe('USERS', () => {
-        it.only('GET /api/users/:username returns the user object', () => {
+        it('GET /api/users/:username returns the user object', () => {
             return request(app)
             .get('/api/users/butter_bridge')
             .expect(200)
@@ -77,10 +77,10 @@ describe('/api/', () => {
                     .then(({ body }) => {
                         expect(body.msg).to.equal("Method Not Allowed");
                     });
+                });
+                return Promise.all(methodPromises);
             });
-            return Promise.all(methodPromises);
         });
-    });
     describe('ARTICLES', () => {
         it('GET /api/articles/article_id returns a 200 and the article object', () => {
             return request(app)
@@ -104,37 +104,37 @@ describe('/api/', () => {
                     'author',
                     'created_at', 
                     'comment_count' 
-                )
-
-            })
-        });
-        it('GET /api/articles/article_id returns a 404 error if an invalid article id is passed', () => {
-            return request(app)
-            .get('/api/articles/parsnips')
-            .expect(400)
-            .then(({body}) => {
-                expect(body.msg).to.eql('Bad Request')
-            })
-        });
-        it('GET /api/articles/article_id returns a 404 error if the article_id does not exist', () => {
-            return request(app)
-            .get('/api/articles/150')
-            .expect(404)
-            .then(({body}) => {
-                expect(body.msg).to.eql('Page Not Found')
-            })
-        });
-        it('GET /api/articles/article_id returns a 404 if the endpoint is misspelled', () => {
-            return request(app)
-            .get('/api/articlesssss/1')
-            .expect(404)
-            .then(({body})=>{
-                expect(body.msg).to.eql('Page Not Found')
-            })
-        });
-        it('GET /api/articles/article_id returns an input of null as 0', () => {
-            return request(app)
-            .get('/api/articles/2')
+                    )
+                    
+                })
+            });
+            it('GET /api/articles/article_id returns a 404 error if an invalid article id is passed', () => {
+                return request(app)
+                .get('/api/articles/parsnips')
+                .expect(400)
+                .then(({body}) => {
+                    expect(body.msg).to.eql('Bad Request')
+                })
+            });
+            it('GET /api/articles/article_id returns a 404 error if the article_id does not exist', () => {
+                return request(app)
+                .get('/api/articles/150')
+                .expect(404)
+                .then(({body}) => {
+                    expect(body.msg).to.eql('Page Not Found')
+                })
+            });
+            it('GET /api/articles/article_id returns a 404 if the endpoint is misspelled', () => {
+                return request(app)
+                .get('/api/articlesssss/1')
+                .expect(404)
+                .then(({body})=>{
+                    expect(body.msg).to.eql('Page Not Found')
+                })
+            });
+            it('GET /api/articles/article_id returns an input of null as 0', () => {
+                return request(app)
+                .get('/api/articles/2')
             .expect(200)
             .then(({body})=> {
                 console.log(body.article)
@@ -156,26 +156,26 @@ describe('/api/', () => {
                     'topic',
                     'author',
                     'created_at'
-                )
-                expect(body.article.votes).to.equal(101)
-            })
-        });
-        it('PATCH /api/articles/article_id ignores a patch request with no information in request body', () => {
-            return request(app)
-            .patch('/api/articles/1')
-            .expect(200)
-            .then(({body})=> {
-                expect(body.article.votes).to.eql(100)
-            })
-        });
-        it('PATCH /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
-            return request(app)
-            .patch('/api/articles/banana')
-            .expect(400)
-            .then(({body}) => {
-                expect(body.msg).to.eql('Bad Request')
-            })
-        });
+                    )
+                    expect(body.article.votes).to.equal(101)
+                })
+            });
+            it('PATCH /api/articles/article_id ignores a patch request with no information in request body', () => {
+                return request(app)
+                .patch('/api/articles/1')
+                .expect(200)
+                .then(({body})=> {
+                    expect(body.article.votes).to.eql(100)
+                })
+            });
+            it('PATCH /api/articles/article_id returns a 400 error if an invalid article id is passed', () => {
+                return request(app)
+                .patch('/api/articles/banana')
+                .expect(400)
+                .then(({body}) => {
+                    expect(body.msg).to.eql('Bad Request')
+                })
+            });
         it('PATCH /api/articles/article_id returns a 200 and an updated object if inc_votes is a negative number', () => {
             return request(app)
             .patch('/api/articles/1')
@@ -222,6 +222,16 @@ describe('/api/', () => {
                 expect(body.comment).to.be.an('Object')
             })
         })
+        it('POST returns a 400 error when the post request does not include all of the required keys', () => {
+            return request(app)
+            .post('/api/articles/1/comments/')
+            .send({username: 'butter_bridge'})
+            .expect(400)
+            .then(({body})=> {
+                console.log(body)
+            expect(body.msg).to.eql('Bad Request')
+            })
+        });
     it('GET /api/articles returns a 200 status and an array of article objects', () => {
         return request(app)
          .get('/api/articles')
@@ -379,15 +389,6 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Page Not Found')
             })
         });
-        it('POST returns a 400 error when the post request does not include all of the required keys', () => {
-            return request(app)
-            .post('/api/articles/1/comments')
-            .send({username: 'butter_bridge'})
-            .expect(400)
-            .then(({body})=> {
-                expect(body.msg).to.eql('Bad Request')
-            })
-        });
         it('GET /api/articles/article_id/comments retuns a 200 and an array of comment objects', () => {
             return request(app)
             .get('/api/articles/1/comments')
@@ -435,9 +436,9 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        xit('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+        it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
             return request(app)
-            .get('/api/articles/164/comments')
+            .get('/api/articles/16400/comments')
             .expect(404)
             .then(({body})=> {
                 expect(body.msg).to.eql('Page Not Found')
@@ -483,7 +484,7 @@ describe('/api/', () => {
                 expect(body.comments).to.be.descendingBy('author')
             })
         });
-        xit('GET /api/articles/article_id/comments returns a 404 if a request is made to a column that does not exist', () => {
+        it('GET /api/articles/article_id/comments returns a 400 if a request is made to a column that does not exist', () => {
             return request(app)
             .get('/api/articles/1/comments?sort_by=NotAColumn')
             .expect(400)
@@ -636,4 +637,18 @@ describe('/api/', () => {
             return Promise.all(methodPromises);
         });
     })
+    describe.only('API', () => {
+        it('ERROR returns a 405 message when trying to delete the api', () => {
+            const invalidMethods = ['delete'];
+            const methodPromises = invalidMethods.map(method => {
+                return request(app)
+                [method]('/api/')
+                    .expect(405)
+                    .then(({body})=> {
+                        expect(body.msg).to.eql('Method Not Allowed')
+                    })
+            })
+            return Promise.all(methodPromises)
+        });
+    });
 });
