@@ -87,6 +87,7 @@ describe('/api/', () => {
             .get('/api/articles/1')
             .expect(200)
             .then(({body})=> {
+                console.log(body.article)
                 expect(body.article).to.be.an('Object')
             })
         })
@@ -148,6 +149,7 @@ describe('/api/', () => {
             .send({inc_votes: 1})
             .expect(200)
             .then(({body}) => {
+                console.log(body.article)
                 expect(body.article).to.have.keys( 
                     'article_id',
                     'title',
@@ -637,7 +639,16 @@ describe('/api/', () => {
             return Promise.all(methodPromises);
         });
     })
-    describe.only('API', () => {
+    describe('API', () => {
+        it('returns a json object', () => {
+            return request(app)
+            .get('/api/')
+            .expect(200)
+            .then(({json})=>{
+                console.log(json)
+                expect(json).to.be.an('Object')
+            })
+        });
         it('ERROR returns a 405 message when trying to delete the api', () => {
             const invalidMethods = ['delete'];
             const methodPromises = invalidMethods.map(method => {
