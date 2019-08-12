@@ -1,7 +1,7 @@
 const json = require('../endpoints.json')
 
 const sendAll = () => {
-    return {json}
+    return json
 }
 
 module.exports = sendAll

@@ -51,7 +51,6 @@ describe('/api/', () => {
             .get('/api/users/butter_bridge')
             .expect(200)
             .then(({body}) => {
-                console.log(body)
                 expect(body).to.be.an('Object')
                 expect(body.user).to.have.all.keys(
                     'username',
@@ -87,7 +86,6 @@ describe('/api/', () => {
             .get('/api/articles/1')
             .expect(200)
             .then(({body})=> {
-                console.log(body.article)
                 expect(body.article).to.be.an('Object')
             })
         })
@@ -138,7 +136,6 @@ describe('/api/', () => {
                 .get('/api/articles/2')
             .expect(200)
             .then(({body})=> {
-                console.log(body.article)
                 expect(body.article.votes).to.eql(0)
                 expect(body.article.comment_count).to.eql(0)
             })
@@ -149,7 +146,6 @@ describe('/api/', () => {
             .send({inc_votes: 1})
             .expect(200)
             .then(({body}) => {
-                console.log(body.article)
                 expect(body.article).to.have.keys( 
                     'article_id',
                     'title',
@@ -230,7 +226,6 @@ describe('/api/', () => {
             .send({username: 'butter_bridge'})
             .expect(400)
             .then(({body})=> {
-                console.log(body)
             expect(body.msg).to.eql('Bad Request')
             })
         });
@@ -363,7 +358,7 @@ describe('/api/', () => {
         return Promise.all(methodPromises);
     });
     });
-    describe.only('COMMENTS', () => {
+    describe('COMMENTS', () => {
         it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
             return request(app)
             .post('/api/articles/1355/comments')
@@ -438,7 +433,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it.only('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+        it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/16400/comments')
             .expect(404)
@@ -585,7 +580,7 @@ describe('/api/', () => {
             )
             expect(body.comment.votes).to.equal(11)
             expect(body.comment).to.be.an('Object')
-            });
+    });
         });
         it('PATCH /api/comment/:comment_id returns a 400 status when inc_votes is not a number', () => {
             return request(app)
@@ -645,7 +640,6 @@ describe('/api/', () => {
             .get('/api/')
             .expect(200)
             .then(({json})=>{
-                console.log(json)
                 expect(json).to.be.an('Object')
             })
         });
@@ -656,7 +650,6 @@ describe('/api/', () => {
                 [method]('/api/')
                     .expect(405)
                     .then(({body})=> {
-                        console.log(json)
                         expect(body.msg).to.eql('Method Not Allowed')
                     })
             })
