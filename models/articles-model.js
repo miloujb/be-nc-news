@@ -67,7 +67,7 @@ const fetchComments = (article_id, {sort_by, order}) => {
     .where('comments.article_id', '=', article_id)
     .then(comments => {
         console.log('inside model')
-        if (!comments) return Promise.reject({msg: 'Page Not Found', status: 404})
+        if (!comments.length) return Promise.reject({msg: 'Page Not Found', status: 404})
         return comments
     })
 }

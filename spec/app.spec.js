@@ -363,7 +363,7 @@ describe('/api/', () => {
         return Promise.all(methodPromises);
     });
     });
-    describe('COMMENTS', () => {
+    describe.only('COMMENTS', () => {
         it('POST /api/articles/article_id/comments returns a 404 if the article in question does not exist', () => {
             return request(app)
             .post('/api/articles/1355/comments')
@@ -438,7 +438,7 @@ describe('/api/', () => {
                 expect(body.msg).to.eql('Bad Request')
             })
         });
-        it('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
+        it.only('GET /api/articles/article_id/comments returns a 404 error if the article does not exist', () => {
             return request(app)
             .get('/api/articles/16400/comments')
             .expect(404)
@@ -656,6 +656,7 @@ describe('/api/', () => {
                 [method]('/api/')
                     .expect(405)
                     .then(({body})=> {
+                        console.log(json)
                         expect(body.msg).to.eql('Method Not Allowed')
                     })
             })
