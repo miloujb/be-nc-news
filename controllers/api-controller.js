@@ -1,12 +1,7 @@
-const sendAll = require('../models/api-model')
-
+const json = require("../endpoints.json");
 
 const getAll = (req, res, next) => {
-    sendAll()
-    .then(json => {
-        res(200).send(json)
-    })
-    .catch(next)
-}
+  res.sendStatus(200).send(json);
+};
 
-module.exports = getAll
+module.exports = getAll;

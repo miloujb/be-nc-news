@@ -226,6 +226,7 @@ describe('/api/', () => {
             .send({username: 'butter_bridge'})
             .expect(400)
             .then(({body})=> {
+                console.log(body)
             expect(body.msg).to.eql('Bad Request')
             })
         });
@@ -279,12 +280,12 @@ describe('/api/', () => {
              expect(body.msg).to.eql('Page Not Found')
          })
      });
-     it('GET /api/articles returns a 404 if the sort_by request is invalid', () => {
+     it('GET /api/articles returns a 400 if the sort_by request is invalid', () => {
          return request(app)
          .get('/api/articles?sort_by=44')
-         .expect(404)
+         .expect(400)
          .then(({body})=> {
-             expect(body.msg).to.eql('Page Not Found')
+             expect(body.msg).to.eql('Bad Request')
          })
      });
      it('GET /api/articles will default to descending order if an invalid request is made to the order request', () => {
@@ -634,12 +635,12 @@ describe('/api/', () => {
             return Promise.all(methodPromises);
         });
     })
-    describe('API', () => {
+    describe.only('API', () => {
         it('returns a json object', () => {
             return request(app)
             .get('/api/')
             .expect(200)
-            .then(({json})=>{
+            .then((json)=> {
                 expect(json).to.be.an('Object')
             })
         });
