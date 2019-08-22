@@ -226,7 +226,6 @@ describe('/api/', () => {
             .send({username: 'butter_bridge'})
             .expect(400)
             .then(({body})=> {
-                console.log(body)
             expect(body.msg).to.eql('Bad Request')
             })
         });
@@ -635,7 +634,7 @@ describe('/api/', () => {
             return Promise.all(methodPromises);
         });
     })
-    describe.only('API', () => {
+    describe('API', () => {
         it('returns a json object', () => {
             return request(app)
             .get('/api/')
