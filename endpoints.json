@@ -120,7 +120,7 @@
         ]
       }
     },
-    "DELETE /api/articles/:article_id/comments": {
+    "DELETE /api/comments/:comment_id": {
       "description": "deletes the comment and comment_id",
       "queries": []
     }
